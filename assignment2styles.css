@@ -1,0 +1,67 @@
+/* Style for the overall container */
+#container {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Style for the header */
+#header {
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style for titles */
+.title {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    /* height: 100px; */
+    /* width: 300px; */
+}
+
+h1, h2 {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: black;
+    font-size: 16px;
+}
+
+.subtitle {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: gray;
+    /* margin-bottom: 20px; */
+}
+
+.form-group {
+    /* Form group styling */
+    border: 1px solid #ccc;
+    margin: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styling */
+.btn {
+    margin: 0 auto;
+    display: block;
+}
+
+#footer {
+    /* Footer styling */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f9f9f9;
+    padding: 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: gray;
+}
