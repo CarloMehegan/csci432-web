@@ -68,15 +68,34 @@ h1, h2 {
     color: gray;
 }
 
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 /*discussion page*/
+#discussion-page {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+#sidebar-member {
+    width: 15%;
+    height: 600px;
+    background-color: #C6E6DB;
+    position: relative;
+}
 
 /* Container styling */
 #discussion-container {
-    width: 600px;
+    width: 85%;
+    height: 100%;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
     background-color: lightgray;
-    border-radius: 10px;
 }
 
 /* Header styling */
