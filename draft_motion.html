@@ -44,6 +44,8 @@
             When you are given the floor to propose a motion,
             you can select one of your draft motions to become the new, current motion.
         </p>
+
+        <button id="viewMotionsButton" class="btn" onclick="navigateToViewMotions()">View Motions</button>
     </footer>
     </div>
 
@@ -55,7 +57,26 @@
         const details = document.getElementById('details').value;
         console.log('Name:', name);
         console.log('Details:', details);
+
+        const motion = {
+                name,
+                details
+            };
+
+            // Get existing motions from localStorage, or initialize an empty array
+            const motions = JSON.parse(localStorage.getItem('motions')) || [];
+            
+            motions.push(motion);
+            
+            localStorage.setItem('motions', JSON.stringify(motions));
+
+            // Clear the form after submission
+            this.reset();
     });
+
+    function navigateToViewMotions() {
+        window.location.href = 'view_motions.html'; // Specify the correct path to your view motions page
+    }
     </script>
 </body>
 
