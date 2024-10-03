@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Motions</title>
+    <style>
+        /* Overall container styling */
+        #view-motions-container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+        }
+
+        /* Header styling */
+        #view-motions-header {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        #view-motions-header h1 {
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+
+        /* Motion list styling */
+        .motion-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .motion-item {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+        }
+        
+        .motion-item header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .motion-item .status {
+            font-size: 12px;
+            font-weight: normal;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="view-motions-container">
+        <header id="view-motions-header">
+            <h1>View Motions</h1>
+        </header>
+
+        <ul class="motion-list">
+            <li class="motion-item">
+                <header>Motion 1<span class="status"> - Draft</span></header>
+                <p>This is the detail of motion 1.</p>
+            </li>
+            <li class="motion-item">
+                <header>Motion 2<span class="status"> - Active</span></header>
+                <p>This is the detail of motion 2.</p>
+            </li>
+            <li class="motion-item">
+                <header>Motion 3<span class="status"> - Draft</span></header>
+                <p>This is the detail of motion 3.</p>
+            </li>
+        </ul>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const motions = JSON.parse(localStorage.getItem('motions')) || [];
+
+        const motionListElement = document.querySelector('.motion-list');
+
+        if (motions.length === 0) {
+            const noMotionsItem = document.createElement('li');
+            noMotionsItem.textContent = 'No motions available.';
+            motionListElement.appendChild(noMotionsItem);
+        } else {
+            motions.forEach(motion => {
+                const motionItem = document.createElement('li');
+                motionItem.classList.add('motion-item');
+
+                const header = document.createElement('header');
+                header.textContent = motion.name;
+
+                const statusSpan = document.createElement('span');
+                statusSpan.classList.add('status');
+                statusSpan.textContent = ' - New'; // You can specify the appropriate status if needed
+                header.appendChild(statusSpan);
+
+                const description = document.createElement('p');
+                description.textContent = motion.details;
+
+                motionItem.appendChild(header);
+                motionItem.appendChild(description);
+
+                motionListElement.appendChild(motionItem);
+            });
+        }
+    });
+    </script>
+</body>
+
+</html>
