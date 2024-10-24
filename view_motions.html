@@ -5,58 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Motions</title>
-    <style>
-        /* Overall container styling */
-        #view-motions-container {
-            width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f7f7f7;
-            border-radius: 10px;
-        }
-
-        /* Header styling */
-        #view-motions-header {
-            background-color: white;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-
-        #view-motions-header h1 {
-            font-family: Arial, sans-serif;
-            font-size: 24px;
-            font-weight: bold;
-            color: black;
-        }
-
-        /* Motion list styling */
-        .motion-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .motion-item {
-            background-color: white;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ccc;
-        }
-        
-        .motion-item header {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .motion-item .status {
-            font-size: 12px;
-            font-weight: normal;
-            color: gray;
-        }
-    </style>
+    <link rel="stylesheet" href="draft_motion.css">
 </head>
 
 <body>
@@ -79,8 +28,22 @@
                 <p>This is the detail of motion 3.</p>
             </li>
         </ul>
+
+        
     </div>
+
+    <footer id="footer">
+        <p class="footer-text">
+            test test test
+        </p>
+
+        <button id="viewDraftButton" class="btn" onclick="navigateToDraftMotions()">View Drafting</button>
+    </footer>   
     <script>
+        function navigateToDraftMotions() {
+            window.location.href = 'draft_motion.html'; // Specify the correct path to your view motions page
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
         const motions = JSON.parse(localStorage.getItem('motions')) || [];
 
