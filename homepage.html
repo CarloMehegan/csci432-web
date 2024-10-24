@@ -44,7 +44,19 @@
             </div>
     
         </div>
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
     </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            if (body.style.backgroundColor === 'antiquewhite') {
+                body.style.backgroundColor = 'white';
+            } else {
+                body.style.backgroundColor = 'antiquewhite';
+            }
+        }
+    </script>
 </body>
 
 </html>
