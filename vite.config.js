@@ -14,6 +14,7 @@ export default defineConfig({
         login: resolve(__dirname, 'login.html'),
         signup: resolve(__dirname, 'signup.html'),
         view_motions: resolve(__dirname, 'view_motions.html'),
+        team_home: resolve(__dirname, 'team_home.html'),
         // Add more pages as needed
       },
     },
