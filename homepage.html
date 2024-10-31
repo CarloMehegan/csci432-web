@@ -50,10 +50,13 @@
     <script>
         function toggleDarkMode() {
             const body = document.body;
-            if (body.style.backgroundColor === 'antiquewhite') {
+            const page = document.querySelector('.web-container');
+            if (body.style.backgroundColor === 'dimgre') {
                 body.style.backgroundColor = 'white';
+                page.style.backgroundColor = 'white';
             } else {
-                body.style.backgroundColor = 'antiquewhite';
+                body.style.backgroundColor = 'dimgrey';
+                page.style.backgroundColor = 'gainsboro';
             }
         }
     </script>
