@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Motions</title>
+    <link rel="stylesheet" href="draft_motion.css">
+</head>
+
+<body>
+    <div id="view-motions-container">
+        <header id="view-motions-header">
+            <h1>View Motions</h1>
+        </header>
+
+        <ul class="motion-list">
+            <li class="motion-item">
+                <header>Motion 1<span class="status"> - Draft</span></header>
+                <p>This is the detail of motion 1.</p>
+            </li>
+            <li class="motion-item">
+                <header>Motion 2<span class="status"> - Active</span></header>
+                <p>This is the detail of motion 2.</p>
+            </li>
+            <li class="motion-item">
+                <header>Motion 3<span class="status"> - Draft</span></header>
+                <p>This is the detail of motion 3.</p>
+            </li>
+        </ul>
+
+        
+    </div>
+
+    <footer id="footer">
+        <p class="footer-text">
+            test test test
+        </p>
+
+        <button id="viewDraftButton" class="btn" onclick="navigateToDraftMotions()">View Drafting</button>
+    </footer>   
+    <script>
+        function navigateToDraftMotions() {
+            window.location.href = 'draft_motion.html'; // Specify the correct path to your view motions page
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const motions = JSON.parse(localStorage.getItem('motions')) || [];
+
+        const motionListElement = document.querySelector('.motion-list');
+
+        if (motions.length === 0) {
+            const noMotionsItem = document.createElement('li');
+            noMotionsItem.textContent = 'No motions available.';
+            motionListElement.appendChild(noMotionsItem);
+        } else {
+            motions.forEach(motion => {
+                const motionItem = document.createElement('li');
+                motionItem.classList.add('motion-item');
+
+                const header = document.createElement('header');
+                header.textContent = motion.name;
+
+                const statusSpan = document.createElement('span');
+                statusSpan.classList.add('status');
+                statusSpan.textContent = ' - New'; // You can specify the appropriate status if needed
+                header.appendChild(statusSpan);
+
+                const description = document.createElement('p');
+                description.textContent = motion.details;
+
+                motionItem.appendChild(header);
+                motionItem.appendChild(description);
+
+                motionListElement.appendChild(motionItem);
+            });
+        }
+    });
+    </script>
+</body>
+
+</html>

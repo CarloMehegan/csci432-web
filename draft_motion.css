@@ -4,6 +4,7 @@
 
 /* Style for the overall container */
 #container {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -18,7 +19,6 @@
 
 /* Style for titles */
 .title {
-    font-family: Arial, sans-serif;
     font-size: 24px;
     font-weight: bold;
     color: black;
@@ -27,14 +27,12 @@
 }
 
 h1, h2 {
-    font-family: Arial, sans-serif;
     font-weight: bold;
     color: black;
     font-size: 16px;
 }
 
 .subtitle {
-    font-family: Arial, sans-serif;
     font-size: 18px;
     color: gray;
     /* margin-bottom: 20px; */
@@ -70,65 +68,146 @@ h1, h2 {
     color: gray;
 }
 
-/* 
-    below are the styles for the my motions page
-    from chatgpt
-*/
+/*discussion page*/
 
-/* Section for motions */
-#motions-section {
-    margin: 20px 0;
-    padding: 10px;
+/* Container styling */
+#discussion-container {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+/* Header styling */
+#discussion-header {
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Motion list container */
-.motion-list {
-    margin: 10px 0;
     padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-/* Each motion item */
-.motion-item {
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Motion name styling */
-.motion-name {
+#discussion-header h1,
+#discussion-header h2 {
     font-family: Arial, sans-serif;
-    font-size: 18px;
+    color: black;
+}
+
+/* Chat section styling */
+#chat-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Message box styling */
+#message-box {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns all messages at the start of the message box */
+}
+
+.message {
+    width: 50%; /* Limit each message width to 50% */
+    background-color: white;
+    border: 1px solid #999999; /* Set border color */
+    border-radius: 0.5em; /* Set border radius */
+    padding: 1em; /* Set padding on all sides */
+    margin-bottom: 10px; /* Space between messages */
+    box-shadow: 0 1px #999999; /* Set box shadow */
+    
+    display: flex; /* Make message a flex container */
+    flex-direction: column; /* Arrange items vertically */
+}
+
+.username {
+    font-weight: bold;
+    margin-bottom: 0.5em; /* Add some space between the username and the message body */
+}
+
+/* Form styling */
+#messageForm {
+    display: flex;
+}
+
+#messageInput {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.btn {
+    padding: 8px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+/* View motions */
+
+/* Overall container styling */
+#view-motions-container {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+}
+
+/* Header styling */
+#view-motions-header {
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+#view-motions-header h1 {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
     font-weight: bold;
     color: black;
 }
 
-/* Motion details styling */
-.motion-details {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: gray;
+/* Motion list styling */
+.motion-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.motion-item {
+    background-color: white;
     margin-bottom: 10px;
-}
-
-/* Minimalist styling for motion-btn */
-.motion-btn {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    padding: 8px 16px;
+    padding: 10px;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
 }
 
-.motion-btn:hover {
-    background-color: #0f0f0f;
+.motion-item header {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.motion-item .status {
+    font-size: 12px;
+    font-weight: normal;
+    color: gray;
 }

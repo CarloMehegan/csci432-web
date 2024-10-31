@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robert's Realm</title>
+    <link rel="stylesheet" href="index-home.css">
+</head>
+<body>
+    <div class="web-container">
+
+        <img  src="\home-imgs\avatar.png" class="avatar" alt="">
+    
+        <div>Robert's Realm</div>
+    
+        <div class="commitees">
+    
+            <div>Commitees</div>
+    
+            <div class= "teams">
+                
+                <div class="team">
+                    <img src="\home-imgs\people.svg" class="people" alt="">
+                    <p>Team 1</p>
+                </div>
+                <div class="team">
+                    <img src="\home-imgs\people.svg" class="people" alt="">
+                    <p>Team 1</p>
+                </div>
+                <div class="team">
+                    <img src="\home-imgs\people.svg" class="people" alt="">
+                    <p>Team 1</p>
+                </div>
+                <div class="team">
+                    <img src="\home-imgs\people.svg" class="people" alt="">
+                    <p>Team 1</p>
+                </div>
+    
+                <div class="add-team">
+                    <img src="\home-imgs\plus-solid.svg" alt="">
+                    <p>Add a Committee</p>
+                </div>
+            </div>
+    
+        </div>
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            if (body.style.backgroundColor === 'antiquewhite') {
+                body.style.backgroundColor = 'white';
+            } else {
+                body.style.backgroundColor = 'antiquewhite';
+            }
+        }
+    </script>
+</body>
+
+</html>
