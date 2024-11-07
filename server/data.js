@@ -1,5 +1,5 @@
 // server/data.js
-const committees = [
+export const committees = [
     { id: 1, 
         name: 'Finance Committee',
          owner: 'Alice Johnson',
@@ -18,9 +18,8 @@ const committees = [
             members: ['Taylor Swift', 'David Lee', 'Ella Fitzgerald'],},
 ];
 
-export { committees };
 
-const getCommittees = () => {
+//const getCommittees = () => {
 
-    return committees;
-  };
+//    return committees;
+//  };

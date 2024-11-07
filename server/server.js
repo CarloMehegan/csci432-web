@@ -4,7 +4,7 @@ import cors from 'cors';
 import { committees } from './data.js';
 
 const app = express();
-const port = 5173;
+const port = 3000;
 
 app.use(json());
 app.use(cors());
