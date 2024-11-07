@@ -1,11 +1,11 @@
 // server/data.js
-const committees = [
+export const committees = [
     { id: 1, name: 'Finance Committee' },
     { id: 2, name: 'Marketing Committee' },
     { id: 3, name: 'Operations Committee' },
 ];
 
-export const getCommittees = () => {
+const getCommittees = () => {
 
     return committees;
   };
