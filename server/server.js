@@ -1,16 +1,22 @@
 // server/server.js
-import express, {json} from 'express';
-import cors from 'cors';
-import { committees } from './data.js';
+
+const express = require('express');
+const cors = require('cors');
+const sqlite3 = require('sqlite3').verbose();
+const db = require('./database.js');
 
 const app = express();
-const port = 3000;
+const port = 5173;
 
-app.use(json());
-app.use(cors());
+app.use(express.json());
+app.use(cors()); //enables cross-origin resource sharing
 
-app.get('/', (req, res) => {
-    res.send('Server is running!');
+let committeeMembers = [];
+let users = [];
+
+//Route to get all committee members
+app.get('/committeeMembers', (req, res) => {
+    res.json(committeeMembers);
 });
 
 // GET endpoint to retrieve committees
@@ -19,7 +25,7 @@ app.get('/api/committees', (req, res) => {
 });
 
 // GET endpoint to retrieve a specific committee by ID
-app.get('/api/committees/:id', (req, res) => {
+app.get('/committees/:id', (req, res) => {
     const committeeId = parseInt(req.params.id, 10);
     const committee = committees.find(c => c.id === committeeId);
     if (committee) {
