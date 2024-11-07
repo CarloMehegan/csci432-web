@@ -9,13 +9,17 @@ const port = 3000;
 app.use(json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+    res.send('Server is running!');
+});
+
 // GET endpoint to retrieve committees
-app.get('/committees', (req, res) => {
+app.get('/api/committees', (req, res) => {
     res.json(committees);
 });
 
 // GET endpoint to retrieve a specific committee by ID
-app.get('/committees/:id', (req, res) => {
+app.get('/api/committees/:id', (req, res) => {
     const committeeId = parseInt(req.params.id, 10);
     const committee = committees.find(c => c.id === committeeId);
     if (committee) {
@@ -25,7 +29,7 @@ app.get('/committees/:id', (req, res) => {
     }
 });
 
-// Start the server on port 5173
+// Start the server on port
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
