@@ -6,6 +6,9 @@ import { committees } from './data.js';
 const app = express();
 const port = 5173;
 
+app.use(json());
+app.use(cors());
+
 // GET endpoint to retrieve committees
 app.get('/committees', (req, res) => {
     res.json(committees);
