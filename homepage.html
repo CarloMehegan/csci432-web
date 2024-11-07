@@ -37,9 +37,10 @@
                     <p>Team 1</p>
                 </div>
     
-                <div class="add-team">
+                <a href="\create_committee"><div class="add-team">
                     <img src="\home-imgs\plus-solid.svg" alt="">
                     <p>Add a Committee</p>
+                </a>
                 </div>
             </div>
     
@@ -51,7 +52,7 @@
         function toggleDarkMode() {
             const body = document.body;
             const page = document.querySelector('.web-container');
-            if (body.style.backgroundColor === 'dimgre') {
+            if (body.style.backgroundColor == 'dimgrey') {
                 body.style.backgroundColor = 'white';
                 page.style.backgroundColor = 'white';
             } else {
