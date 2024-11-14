@@ -48,3 +48,18 @@ form label{
     font-size: 18px;
     margin-bottom: -5px;
 }
+
+/* Styles for the Home button */
+.home-button {
+    position: absolute; /* Position it in the top left corner */
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    padding: 8px 12px; /* Add some padding */
+    background-color: #000000; /* Blue background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline from link */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+    font-weight: bold; /* Make the text bold */
+}
