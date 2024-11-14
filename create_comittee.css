@@ -53,7 +53,7 @@ form label{
 .home-button {
     position: absolute; /* Position it in the top left corner */
     top: 10px; /* Adjust as needed */
-    left: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
     padding: 8px 12px; /* Add some padding */
     background-color: #000000; /* Blue background */
     color: white; /* White text */
