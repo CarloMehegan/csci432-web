@@ -1,12 +1,13 @@
 // server/server.js
 
-const express = require('express');
-const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
-const db = require('./database.js');
-
+import express, { json } from 'express';
+import cors from 'cors';
 const app = express();
-const port = 5173;
+const port = 3000;
+
+app.use(json());
+app.use(cors());
+
 
 app.use(express.json());
 app.use(cors()); //enables cross-origin resource sharing
