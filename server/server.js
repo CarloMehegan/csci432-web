@@ -2,8 +2,8 @@
 
 const express = require('express');
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
 const db = require('./database.js');
+const mongoose = require('mongoose');
 
 const app = express();
 const port = 5173;
@@ -11,8 +11,29 @@ const port = 5173;
 app.use(express.json());
 app.use(cors()); //enables cross-origin resource sharing
 
-let committeeMembers = [];
-let users = [];
+
+
+const { MongoClient } = require("mongodb");
+// Replace the uri string with your connection string.
+const uri = "<mongodb+srv://carlomehegan:Y9Yj4IRoeUDx20Nc@cluster0.3wt4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0>";
+const client = new MongoClient(uri);
+async function run() {
+  try {
+    const database = client.db('robert_data');
+    const users = database.collection('users');
+    const committees = database.collection('committees');
+    const motions = database.collection('motions');
+    // Query for a movie that has the title 'Back to the Future'
+    //const query = { title: 'Back to the Future' };
+    //const movie = await movies.findOne(query);
+    //console.log(movie);
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
 
 //Route to get all committee members
 app.get('/committeeMembers', (req, res) => {
