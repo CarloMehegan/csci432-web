@@ -15,14 +15,18 @@ app.use(cors()); //enables cross-origin resource sharing
 
 const { MongoClient } = require("mongodb");
 // Replace the uri string with your connection string.
-const uri = "<mongodb+srv://carlomehegan:Y9Yj4IRoeUDx20Nc@cluster0.3wt4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0>";
+const uri = "mongodb+srv://carlomehegan:Y9Yj4IRoeUDx20Nc@cluster0.3wt4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(uri);
+let database = null;
+let users = null;
+let committees = null;
+let motions = null;
 async function run() {
   try {
-    const database = client.db('robert_data');
-    const users = database.collection('users');
-    const committees = database.collection('committees');
-    const motions = database.collection('motions');
+    database = client.db('robert_data');
+    users = database.collection('users');
+    committees = database.collection('committees');
+    motions = database.collection('motions');
     // Query for a movie that has the title 'Back to the Future'
     //const query = { title: 'Back to the Future' };
     //const movie = await movies.findOne(query);
