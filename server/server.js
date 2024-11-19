@@ -5,8 +5,16 @@ const cors = require('cors');
 const db = require('./database.js');
 const mongoose = require('mongoose');
 
+
+import express, { json } from 'express';
+import cors from 'cors';
+
 const app = express();
-const port = 5173;
+const port = 3000;
+
+app.use(json());
+app.use(cors());
+
 
 app.use(express.json());
 app.use(cors()); //enables cross-origin resource sharing

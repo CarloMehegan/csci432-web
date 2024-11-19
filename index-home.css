@@ -56,19 +56,19 @@ body{
     font-size: 11px;
 }
 
-.team:nth-child(1) {
+.team:nth-child(2n) {
     background-color: var(--color1);
 }
 
-.team:nth-child(2) {
+.team:nth-child(4n) {
     background-color: var(--color2);
 }
 
-.team:nth-child(3) {
+.team:nth-child(6n) {
     background-color: var(--color3);
 }
 
-.team:nth-child(4) {
+.team:nth-child(8n) {
     background-color: var(--color4);
 }
 
