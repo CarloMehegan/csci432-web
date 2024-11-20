@@ -21,10 +21,12 @@
                         <input type="text" id="email" name="email"><br><br>
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password"><br><br>
-                    </div>
-                    <div class="register">Register</div>
+                    
+                    <button type="submit" class="register">Register</div>
 
                     </form>
+                </div>
+            </div>
                     <script>
                         document.getElementById('signupForm').addEventListener('submit', async (event) => {
                             event.preventDefault();
@@ -34,7 +36,7 @@
                             const password = document.getElementById('password').value;
                 
                             try {
-                                const response = await fetch('http://localhost:5173/signup', {
+                                const response = await fetch('http://localhost:3000/signup', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -46,13 +48,12 @@
                                 alert(result.message);
                                 
                                 if (response.ok) {
-                                    window.location.href = '/login.html'; // Redirect to login page
+                                    window.location.href = '/index.html'; // Redirect to login page
                                 }
                             } catch (error) {
                                 console.error('Error:', error);
                             }
                         });
                     </script>
-
-
-</body>
+        </body>
+    </html>

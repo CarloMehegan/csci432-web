@@ -1,14 +1,18 @@
 // server/server.js
 
- import express from 'express';
- import bodyParser from 'body-parser';
- import bcrypt from 'bcrypt'; 
+import express from 'express';
+import bodyParser from 'body-parser';
+import bcrypt from 'bcrypt'; 
 
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(cors({ origin: 'http://localhost:5173', // Ensure your client URL is correct
+  methods: 'GET,POST',             // Ensure POST method is allowed
+  allowedHeaders: 'Content-Type' }));
 
 
 import { MongoClient } from "mongodb";
@@ -25,19 +29,20 @@ async function run() {
     users = database.collection('users');
     committees = database.collection('committees');
     motions = database.collection('motions');
+    console.log('Connected to MongoDB');
     // Query for a movie that has the title 'Back to the Future'
     //const query = { title: 'Back to the Future' };
     //const movie = await movies.findOne(query);
     //console.log(movie);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
   }
 }
 run().catch(console.dir);
 
 // Signup endpoint
 app.post('/signup', async (req, res) => {
+  console.log('Signup request received');
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -62,6 +67,8 @@ app.post('/signup', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
 
 //Route to get all committee members
 // app.get('/committeeMembers', (req, res) => {
