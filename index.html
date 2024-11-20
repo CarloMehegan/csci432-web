@@ -16,19 +16,57 @@
                 <div class="rr-logo">RR</div>
                 <div class ="login-info">Welcome back, User!</div>
                 <div class="login-info">
-                    <form>
+                    <form id ="login-form">
                         <label for="email">Email:</label>
                         <input type="text" id="email" name="email"><br><br>
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password"><br><br>
                         <div class = "form-buttons">
                             <a href="signup.html" class ="sign-up">Sign Up</a>
-                            <a href="homepage.html" class = "sign-in-button">Sign In</a>
+                            <button type="submit" class="sign-in-button">Sign In</button>
                         </div>
                         <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="forgot-password">Forgot password?</button>
                     </form>
                 </div>
             </div>
         </div>
+
+<script>
+     const loginForm = document.getElementById('login-form');
+
+// Add an event listener for form submission
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    // Get email and password values
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Send POST request to server to sign in
+    try {
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Sign in successful, redirect to homepage or show success message
+            alert('Signed in successfully!');
+            window.location.href = 'homepage.html'; // Redirect to the homepage or dashboard
+        } else {
+            // Sign in failed, display error message
+            alert(data.message || 'Something went wrong!');
+        }
+    } catch (error) {
+        console.error('Error signing in:', error);
+        alert('Error signing in. Please try again.');
+    }
+});
+</script>
 </body>
 </html>
