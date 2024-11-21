@@ -60,6 +60,11 @@
                 page.style.backgroundColor = 'gainsboro';
             }
         }
+
+        fetch('http://localhost:3000/team/coolKids')
+        .then(response => response.json())
+        .then(data => console.log(data.members))
+        .catch(error => console.error('Error:', error));
     </script>
 </body>
 
