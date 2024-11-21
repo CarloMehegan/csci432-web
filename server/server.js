@@ -68,7 +68,65 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+//get committee by name
+app.get('/team/:name', async (req, res) => {
+  const teamName = req.params.name;
+  try {
+    const team = await committees.findOne({ name: teamName });
+    if (team) {
+      res.status(200).json(team);
+    } else {
+      res.status(404).send('Team not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving team');
+  }
+ });
 
+ //get user by name
+ app.get('/user/:name', async (req, res) => {
+  const userName = req.params.name;
+  try {
+    const user = await users.findOne({ name: userName });
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving user');
+  }
+ });
+
+ //get motion by name
+ app.get('/motion/:name', async (req, res) => {
+  const motionName = req.params.name;
+  try {
+    const motion = await users.findOne({ name: motionName });
+    if (motion) {
+      res.status(200).json(motion);
+    } else {
+      res.status(404).send('Motion not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving motion');
+  }
+ });
+
+ //get all motions by committee
+ app.get('/motions/:committee', async (req, res) => {
+  const committeeName2 = req.params.name;
+  try {
+    const motions = await motions.findAll({ committeeName: committeeName2 });
+    if (motions) {
+      res.status(200).json(motions);
+    } else {
+      res.status(404).send('Motions not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving motions');
+  }
+ });
 
 //Route to get all committee members
 // app.get('/committeeMembers', (req, res) => {
