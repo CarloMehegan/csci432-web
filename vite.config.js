@@ -17,6 +17,7 @@ export default defineConfig({
         team_home: resolve(__dirname, 'team_home.html'),
         motion_archive: resolve(__dirname, 'motion_archive.html'),
         create_committee: resolve(__dirname, 'create_comittee.html'),
+        close_motion: resolve(__dirname, 'close_motion.html'),
         // Add more pages as needed
       },
     },

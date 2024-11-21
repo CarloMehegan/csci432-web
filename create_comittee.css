@@ -33,12 +33,14 @@ form{
     display: flex;
     flex-direction: row;
     gap: 30px;
+    width: 150%
 }
 
 input[type="text"]{
    background-color: rgb(233, 237, 237);
    border: 1px solid rgb(112, 110, 110);
    border-radius: 10px;
+   width: 50%;
 
 }
 
