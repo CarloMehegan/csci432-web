@@ -6,61 +6,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discussion Page</title>
     <link rel="stylesheet" href="draft_motion.css">
+    <script type="text/javascript" src="dropdown.js"></script>
+
 </head>
 
 <body>
-    <div id="discussion-container">
-        <header id="discussion-header">
-            <h1>Discussion on Motion</h1>
-            <h2>Chat with others about the motion here.</h2>
-        </header>
-
-        <section id="chat-section">
-            <div id="message-box">
-                <!-- Messages will appear here -->
-                <div class="message">
-                    <span class="username">User1:</span> This is an example message.
+    <div id = "main-container">
+        <div id = "sidebar-container">
+            <section id="sidebar">
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('manageDropdown')" class="dropbtn">MANAGE MOTIONS</button>
+                    <div id="manageDropdown" class="dropdown-content">
+                        <a href="#">We should change this random thing</a>
+                        <a href="#">Proposal to add something idk</a>
+                        <a href="#">I think we should make a motion</a>
+                    </div>
                 </div>
-                <div class="message">
-                    <span class="username">User2:</span> Here's another message.
-                </div>
-            </div>
-            
-            <form id="messageForm">
-                <input type="text" id="messageInput" name="message" placeholder="Type your message here" required>
-                <button type="submit" class="btn">Send</button>
-            </form>
-        </section>
-    </div>
-    <script>
-        const form = document.getElementById('messageForm');
-        const messageBox = document.getElementById('message-box');
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            
-            // Get the message input value
-            const messageInput = document.getElementById('messageInput');
-            const message = messageInput.value.trim();
-
-            // If there's a non-empty message, add it to the message box
-            if(message) {
-                // Create a new message element
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.innerHTML = `<span class="username">You:</span> ${message}`;
-
-                // Append the message to the message box
-                messageBox.appendChild(messageElement);
-
-                // Clear the input field
-                messageInput.value = '';
                 
-                // Scroll to the bottom of the message box
-                messageBox.scrollTop = messageBox.scrollHeight;
-            }
-        });
-    </script>
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('speakerDropdown')" class="dropbtn">SPEAKER REQUESTS</button>
+                    <div id="speakerDropdown" class="dropdown-content">
+                        <a href="#">User 1</a>
+                        <a href="#">User 2</a>
+                        <a href="#">User 3</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="discussion-container">
+            <header id="discussion-header">
+                <h1>Discussion on Motion</h1>
+                <h2>Chat with others about the motion here.</h2>
+            </header>
+
+            <section id="chat-section">
+                <div id="message-box">
+                    <!-- Messages will appear here -->
+                    <div class="message">
+                        <span class="username">User1:</span> This is an example message.
+                    </div>
+                    <div class="message">
+                        <span class="username">User2:</span> Here's another message.
+                    </div>
+                </div>
+                
+                <form id="messageForm">
+                    <input type="text" id="messageInput" name="message" placeholder="Type your message here" required>
+                    <button type="submit" class="btn">Send</button>
+                </form>
+            </section>
+        </div>
+        <script>
+            const form = document.getElementById('messageForm');
+            const messageBox = document.getElementById('message-box');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                
+                // Get the message input value
+                const messageInput = document.getElementById('messageInput');
+                const message = messageInput.value.trim();
+
+                // If there's a non-empty message, add it to the message box
+                if(message) {
+                    // Create a new message element
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
+                    messageElement.innerHTML = `<span class="username">You:</span> ${message}`;
+
+                    // Append the message to the message box
+                    messageBox.appendChild(messageElement);
+
+                    // Clear the input field
+                    messageInput.value = '';
+                    
+                    // Scroll to the bottom of the message box
+                    messageBox.scrollTop = messageBox.scrollHeight;
+                }
+            });
+        </script>
+    </div>
 </body>
 
 </html>
