@@ -58,12 +58,89 @@ app.post('/signup', async (req, res) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+    const committees = [];
 
+    const newUser = {
+       
+      name, 
+      email, 
+      password: hashedPassword,
+      committees: committees
+    };
+
+    console.log('New user:', newUser);
     // Insert the new user
-    await users.insertOne({ name, email, password: hashedPassword });
+    const result = await users.insertOne(newUser);
+    console.log('Insertion result:', result); 
+
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     console.error('Error saving user:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+//method to ensure only authenticated users can log in
+app.post('/login', async (req, res) => {
+  console.log('Login request received');
+  const { email, password } = req.body;
+
+  if(!email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try{
+    const existingUser = await users.findOne({ email });
+    if(!existingUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+    if(!isPasswordCorrect) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    res.status(200).json({ message: 'User signed in successfully' });
+    } catch (error) {
+      console.error('Error logging in:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
+//Post method to create a committee and save the information
+app.get('/create-committee', async (req, res) => {
+  const {name, emails, roles} = req.body; //how do i make this match forms using arrays
+
+  if(!name || !emails || !roles) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  const discussionfile =null; //initialize discussion file
+  const motions = []; //initialize motions (might need to change)
+
+  try {
+    // Check if the email already exists
+    const commiteename = await users.findOne({ name });
+    if (commiteename) {
+      return res.status(409).json({ message: 'Committee name already in use, please choose a new name' });
+    }
+
+    const newCommittee = {
+      name,
+      emails,
+      roles,
+      discussionfile,
+      motions
+    };
+
+    console.log('New committee:', newCommittee);
+
+    const result = await users.insertOne(newCommittee);
+    console.log('Insertion result:', result); 
+
+    res.status(201).json({ message: 'Committee successfully created' });
+  } catch (error) {
+    console.error('Error saving committee:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -97,6 +174,7 @@ app.get('/team/:name', async (req, res) => {
     res.status(500).send('Error retrieving user');
   }
  });
+
 
  //get motion by name
  app.get('/motion/:name', async (req, res) => {
