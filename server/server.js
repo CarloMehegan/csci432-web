@@ -58,7 +58,7 @@ app.post('/signup', async (req, res) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const committees = ["Test"];
+    const committees = [];
 
     const newUser = {
        
@@ -107,6 +107,43 @@ app.post('/login', async (req, res) => {
     }
   });
 
+//Post method to create a committee and save the information
+app.get('/create-committee', async (req, res) => {
+  const {name, emails, roles} = req.body; //how do i make this match forms using arrays
+
+  if(!name || !emails || !roles) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  const discussionfile =null; //initialize discussion file
+  const motions = []; //initialize motions (might need to change)
+
+  try {
+    // Check if the email already exists
+    const commiteename = await users.findOne({ name });
+    if (commiteename) {
+      return res.status(409).json({ message: 'Committee name already in use, please choose a new name' });
+    }
+
+    const newCommittee = {
+      name,
+      emails,
+      roles,
+      discussionfile,
+      motions
+    };
+
+    console.log('New committee:', newCommittee);
+
+    const result = await users.insertOne(newCommittee);
+    console.log('Insertion result:', result); 
+
+    res.status(201).json({ message: 'Committee successfully created' });
+  } catch (error) {
+    console.error('Error saving committee:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 
 //Route to get all committee members
