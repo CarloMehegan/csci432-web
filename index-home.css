@@ -1,5 +1,14 @@
+:root {
+    --color1: #AD3176;
+    --color2: #E8C4D4;
+    --color3: #C6E6DB;
+    --color4: #006B8F;
+    --color5: #003E7F;
+    --color6: #885A5A;
+}
+
 body{
-    background-color: antiquewhite;
+    background-color: white;
 }
 .web-container{
     display: flex;
@@ -9,11 +18,12 @@ body{
     gap: 50px;
     font-size: 30px;
     font-family: sans-serif;
-    width: 80%;
-    height: 100%;
+    width: 93%;
+    height: 87vh;
+    border-radius: 10px;
     justify-content: center;
-    border-radius: 5%;
     background-color: white;
+    justify-content: flex-start;
 
 }
 
@@ -46,6 +56,23 @@ body{
     font-size: 11px;
 }
 
+.team:nth-child(2n) {
+    background-color: var(--color1);
+}
+
+.team:nth-child(4n) {
+    background-color: var(--color2);
+}
+
+.team:nth-child(6n) {
+    background-color: var(--color3);
+}
+
+.team:nth-child(8n) {
+    background-color: var(--color4);
+}
+
+
 .add-team{
     display: flex;
     flex-direction: column;
@@ -60,4 +87,9 @@ body{
 img {
     width: 50px;
     height: 50px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }

@@ -1,0 +1,60 @@
+<!-- motions will be drafted, which will save them to your personal notes.
+    during a meeting, if you are given the floor to propose a motion,
+    you can select one of your draft motions to show to everyone and make
+    the current motion. this motion will be added to the workspace's motion history. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="draft_motion.css">
+</head>
+
+<body>
+    
+    <div id="container">
+        <header id="header">
+            <h1 class="title">My Drafted Motions</h1>
+            <h2 class="subtitle">Here are the motions you have drafted:</h2>
+        </header>
+
+        <section id="motions-section">
+            <!-- This section will eventually be populated with dynamically generated motions -->
+            <div class="motion-list">
+                <div class="motion-item">
+                    <h3 class="motion-name">Motion Name 1</h3>
+                    <p class="motion-details">Details about the first motion...</p>
+                    <button class="motion-btn">Edit</button>
+                    <button class="motion-btn">Delete</button>
+                </div>
+
+                <div class="motion-item">
+                    <h3 class="motion-name">Motion Name 2</h3>
+                    <p class="motion-details">Details about the second motion...</p>
+                    <button class="motion-btn">Edit</button>
+                    <button class="motion-btn">Delete</button>
+                </div>
+
+                <div class="motion-item">
+                    <h3 class="motion-name">Motion Name 3</h3>
+                    <p class="motion-details">Details about the third motion...</p>
+                    <button class="motion-btn">Edit</button>
+                    <button class="motion-btn">Delete</button>
+                </div>
+
+                <!-- More motion items would be dynamically generated -->
+            </div>
+        </section>
+
+        <footer id="footer">
+            <p class="footer-text">You can edit or delete any of your drafted motions from here.</p>
+        </footer>
+    </div>
+
+    
+</body>
+
+</html>

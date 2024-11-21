@@ -20,31 +20,52 @@
     
             <div class= "teams">
                 
-                <div class="team">
+                <a href="\team_home"><div class="team">
                     <img src="\home-imgs\people.svg" class="people" alt="">
-                    <p>Team 1</p>
+                    <p>Team 1</p></a>
                 </div>
-                <div class="team">
+                <a href="\team_home"></a><div class="team">
                     <img src="\home-imgs\people.svg" class="people" alt="">
-                    <p>Team 1</p>
+                    <p>Team 1</p></a>
                 </div>
-                <div class="team">
+                <a href="\team_home"></a><div class="team">
                     <img src="\home-imgs\people.svg" class="people" alt="">
-                    <p>Team 1</p>
+                    <p>Team 1</p></a>
                 </div>
-                <div class="team">
+                <a href="\team_home"></a><div class="team">
                     <img src="\home-imgs\people.svg" class="people" alt="">
-                    <p>Team 1</p>
+                    <p>Team 1</p></a>
                 </div>
     
-                <div class="add-team">
+                <a href="\create_comittee"><div class="add-team">
                     <img src="\home-imgs\plus-solid.svg" alt="">
                     <p>Add a Committee</p>
+                </a>
                 </div>
             </div>
     
         </div>
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
     </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            const page = document.querySelector('.web-container');
+            if (body.style.backgroundColor == 'dimgrey') {
+                body.style.backgroundColor = 'white';
+                page.style.backgroundColor = 'white';
+            } else {
+                body.style.backgroundColor = 'dimgrey';
+                page.style.backgroundColor = 'gainsboro';
+            }
+        }
+
+        fetch('http://localhost:3000/team/coolKids')
+        .then(response => response.json())
+        .then(data => console.log(data.members))
+        .catch(error => console.error('Error:', error));
+    </script>
 </body>
 
 </html>

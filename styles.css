@@ -1,12 +1,12 @@
 /*Style for header*/
-body, html{
+html{
     height: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url(/home-imgs/art.png.png);
-    background-size: cover;
+    background-image: url(home-imgs/art.png.png);
+    background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -24,7 +24,7 @@ body, html{
 
 
 .box-top{
-    z-index: 1;
+    z-index: 10;
     transform: translate(15px, -15px);
     width: 320px;
     height: 462px;
@@ -37,6 +37,8 @@ body, html{
     padding: 20px;
     box-sizing: border-box;
     margin-top: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for separation */
+    border-radius: 10px; /* Smoothens edges to avoid sharp distortion lines */
 }
 
 .login-info{
@@ -48,7 +50,7 @@ body, html{
 }
 
 .rr-logo{
-    color: rgb(98, 95, 95);
+    color: rgb(16, 15, 15);
     font-family: 'Pacifico', cursive;
     font-size: 35px;
     font-weight: bold; 
@@ -56,6 +58,7 @@ body, html{
     margin-bottom: 20px;
     margin-top: 40px;
 }
+
 
 form{
     width: 100%;
@@ -66,7 +69,7 @@ form{
 }
 
 input[type="text"], input[type="password"]{
-   background-color: rgb(237, 251, 251);
+   background-color: rgb(220, 252, 252);
 }
 
 form label{
@@ -106,7 +109,7 @@ form input{
 
 .sign-up{
     text-decoration: underline;
-    color: white;
+    color: rgb(126, 122, 122);
     cursor: pointer;
     background-color: transparent;
     margin-bottom : 10px;
@@ -115,7 +118,7 @@ form input{
 
 .forgot-password{
     text-decoration: underline;
-    color: white;
+    color: rgb(116, 127, 188);
     cursor: pointer;
     background-color: transparent;
     margin-bottom: 30px;

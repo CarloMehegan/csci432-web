@@ -14,17 +14,46 @@
                 <div class="box-top">
                     <div class ="login-info">Register a new account</div>
                     <div class="login-info">
-                    <form class = signup>
+                    <form id="signupForm" class = signup>
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name"><br><br>
                         <label for="email">Email:</label>
                         <input type="text" id="email" name="email"><br><br>
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password"><br><br>
-                    </div>
-                    <div class="register">Register</div>
+                    
+                    <button type="submit" class="register">Register</div>
 
                     </form>
-
-
-</body>
+                </div>
+            </div>
+                    <script>
+                        document.getElementById('signupForm').addEventListener('submit', async (event) => {
+                            event.preventDefault();
+                
+                            const name = document.getElementById('name').value;
+                            const email = document.getElementById('email').value;
+                            const password = document.getElementById('password').value;
+                
+                            try {
+                                const response = await fetch('http://localhost:3000/signup', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ name, email, password })
+                                });
+                                
+                                const result = await response.json();
+                                alert(result.message);
+                                
+                                if (response.ok) {
+                                    window.location.href = '/index.html'; // Redirect to login page
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        });
+                    </script>
+        </body>
+    </html>
