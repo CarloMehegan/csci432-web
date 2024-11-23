@@ -35,13 +35,22 @@ body{
     width: 80%;
 }
 
-.teams{
+.outer-teams{
     display: flex;
     gap: 5em;
     font-size: .25em;
     flex-direction: row;
     justify-content: start;
-    width: 100%
+    width: 100%;
+}
+
+#teams{
+    display: flex;
+    gap: 5em;
+    font-size: .25em;
+    flex-direction: row;
+    justify-content: start;
+    
 }
 
 .team{

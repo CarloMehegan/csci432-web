@@ -17,10 +17,12 @@
         <div class="commitees">
     
             <div>Commitees</div>
+
+            <div class="outer-teams">
     
-            <div class= "teams">
+            <div id= "teams">
                 
-                <a href="\team_home"><div class="team">
+                <!-- <a href="\team_home"><div class="team">
                     <img src="\home-imgs\people.svg" class="people" alt="">
                     <p>Team 1</p></a>
                 </div>
@@ -37,11 +39,12 @@
                     <p>Team 1</p></a>
                 </div>
     
+                 -->
+                </div>
                 <a href="\create_comittee"><div class="add-team">
                     <img src="\home-imgs\plus-solid.svg" alt="">
                     <p>Add a Committee</p>
                 </a>
-                </div>
             </div>
     
         </div>
@@ -61,10 +64,37 @@
             }
         }
 
-        fetch('http://localhost:3000/team/coolKids')
+        fetch('http://localhost:3000/user/Jane')
         .then(response => response.json())
-        .then(data => console.log(data.members))
+        .then(data => {
+                const container = document.getElementById('teams');
+
+                // The array of items to map
+                const items = data.committees;
+
+                // Loop over the items and create a button for each
+                const divElements = items.map(item => {
+                    
+                    const button = document.createElement('button');
+                    button.classList.add("team");
+                    button.textContent = item;
+                    button.addEventListener('click', () => {
+                        window.location.href = `team_home.html`;
+                    });
+
+                    return button;
+                });
+
+                divElements.forEach(div => {
+                    container.appendChild(div);
+                });
+        })
         .catch(error => console.error('Error:', error));
+
+        
+
+        // Append the div elements to the container
+        
     </script>
 </body>
 
