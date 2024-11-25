@@ -23,12 +23,14 @@ let database = null;
 let users = null;
 let committees = null;
 let motions = null;
+let current = null;
 async function run() {
   try {
     database = client.db('robert_data');
     users = database.collection('users');
     committees = database.collection('committees');
     motions = database.collection('motions');
+    current = database.collection('current');
     console.log('Connected to MongoDB');
     // Query for a movie that has the title 'Back to the Future'
     //const query = { title: 'Back to the Future' };
@@ -97,8 +99,18 @@ app.post('/login', async (req, res) => {
 
     const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
     if(!isPasswordCorrect) {
+      console.log("hello")
       return res.status(401).json({ message: 'Invalid credentials' });
     }
+
+    console.log('Updating currentUserName...');
+    const result = await current.updateOne(
+      { id: 1 },
+      { $set: { currentUserName: email } },
+      { upsert: true }
+    );
+
+    console.log('currentUserName updated:', email);
 
     res.status(200).json({ message: 'User signed in successfully' });
     } catch (error) {
@@ -175,12 +187,28 @@ app.get('/team/:name', async (req, res) => {
   }
  });
 
+ //get user by email
+app.get('/userEmail/:email', async (req, res) => {
+  const userEmail = req.params.email; 
+  
+  try {
+    const user = await users.findOne({ email: userEmail });
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving user');
+  }
+});
+
 
  //get motion by name
  app.get('/motion/:name', async (req, res) => {
   const motionName = req.params.name;
   try {
-    const motion = await users.findOne({ name: motionName });
+    const motion = await motions.findOne({ name: motionName });
     if (motion) {
       res.status(200).json(motion);
     } else {
@@ -203,6 +231,64 @@ app.get('/team/:name', async (req, res) => {
     }
   } catch (error) {
     res.status(500).send('Error retrieving motions');
+  }
+ });
+
+ //update current user using email
+ app.post('/updateCurrentUser', async (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).send('Name is required');
+  }
+
+  try {
+    const result = await current.updateOne(
+      {},
+      { $set: { currentUserName: name } },
+      { upsert: true }
+    );
+    res.status(200).json({ message: 'Current user name updated successfully', result });
+  } catch (error) {
+    res.status(500).send('Error updating current user name');
+  }
+});
+
+//update current committee
+// Update current committee
+app.post('/updateCurrentCommittee', async (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).send('Name is required');
+  }
+
+  try {
+    const result = await current.updateOne(
+      { id: 1 }, // Ensure this matches the document's id field
+      { $set: { currentCommitteeName: name } },
+      { upsert: true }
+    );
+
+
+    res.status(200).json({ message: 'Current committee name updated successfully', result });
+  } catch (error) {
+    console.error('Error updating current committee name:', error);
+    res.status(500).send('Error updating current committee name');
+  }
+});
+
+
+ //get current info
+ app.get('/current', async (req, res) => {
+  const current1 = 1;
+  try {
+    const currentInfo = await current.findOne({ id: current1 });
+    if (currentInfo) {
+      res.status(200).json(currentInfo);
+    } else {
+      res.status(404).send('Current not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving current');
   }
  });
 
