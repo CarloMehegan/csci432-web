@@ -16,7 +16,7 @@
                 <div class="rr-logo">Robert's Realm</div>
                 <div class ="login-info">Welcome back, User!</div>
                 <div class="login-info">
-                    <form>
+                    <form id="signinForm">
                         <label for="email">Email:</label>
                         <input type="text" id="email" name="email"><br><br>
                         <label for="password">Password:</label>
@@ -32,3 +32,31 @@
         </div>
 </body>
 </html>
+
+<script>
+    document.getElementById('signinForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+                
+        const email = document.getElementById('email').value;
+        console.log(email);
+                
+        try {
+            const response = await fetch('http://localhost:3000/updateCurrentUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email})
+            });
+                                
+            const result = await response.json();
+            alert(result.message);
+                                
+            if (response.ok) {
+                window.location.href = '/index.html'; // Redirect to login page
+            }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+    });
+</script>

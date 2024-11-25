@@ -20,7 +20,7 @@
         </div>
         <div class="main-body">
             <div class="top-bar">
-                <div class="text-1">Team 1</div>
+                <div id="text-1"></div>
                 <div class="icons">
                     <div class="text-2">Members: </div>
                     <img src="home-imgs/avatar.png" alt="">
@@ -30,7 +30,8 @@
             </div>
             <div class="motion">
                 <div class="text-4">Current Motion</div>
-                <div class="text-3">The quick fox jumped over the brown fence.</div>
+                <div id="text-3"></div>
+                <div id="text-desc"></div>
                 <div class="motion-bottom">
                     <div class="voting-info">
                         <div class="text-5">4</div>
@@ -51,3 +52,38 @@
     </div>
 </body>
 </html>
+
+<script>
+    fetch('http://localhost:3000/current')
+    .then(response => response.json())
+    .then(data => {
+        const teamName = data.currentCommitteeName;
+        return fetch(`http://localhost:3000/team/${teamName}`);
+    })
+    .then(response => response.json())
+    .then(team => {
+        const title = document.getElementById('text-1');
+        const motion = document.getElementById('text-3');
+        
+        const titlediv = document.createElement('div');
+        titlediv.textContent = team.name;
+        title.appendChild(titlediv);
+
+        const motiondiv = document.createElement('div');
+        motiondiv.textContent = team.currentmotionName;
+        motion.appendChild(motiondiv);
+        console.log(team.currentMotion);
+
+        return fetch(`http://localhost:3000/motion/${team.currentmotionName}`);
+    })
+    .then(response => response.json())
+    .then(motion => {
+        const desc = document.getElementById('text-desc');
+        const descdiv = document.createElement('div');
+        descdiv.textContent = motion.description;
+        desc.appendChild(descdiv);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+</script>

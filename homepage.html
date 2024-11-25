@@ -63,8 +63,18 @@
                 page.style.backgroundColor = 'gainsboro';
             }
         }
+        let name = null;
 
-        fetch('http://localhost:3000/user/Jane')
+// Fetch the current user
+
+        fetch('http://localhost:3000/current')
+        .then(response => response.json())
+        .then(data => {
+            name = data.currentUserName;
+
+            // Fetch the user data using the email
+            return fetch(`http://localhost:3000/userEmail/${name}`);
+        })
         .then(response => response.json())
         .then(data => {
                 const container = document.getElementById('teams');
@@ -78,9 +88,31 @@
                     const button = document.createElement('button');
                     button.classList.add("team");
                     button.textContent = item;
-                    button.addEventListener('click', () => {
+                    button.addEventListener('click', async () => {
+                        console.log(item);
+                        try {
+                        const response = await fetch('http://localhost:3000/updateCurrentCommittee', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ name: item }), // Correct field name
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        console.log('Update successful:', data);
+
+                        // Navigate to the new page after the fetch request completes
                         window.location.href = `team_home.html`;
-                    });
+                    } catch (error) {
+                        console.error('Error updating current committee:', error);
+                        alert('Error updating current committee. Please try again.');
+                    }
+                });
 
                     return button;
                 });

@@ -94,8 +94,13 @@ body{
    font-size: 60%; 
 }
 
-.text-3{
+#text-3{
     font-size: 50%;
+}
+
+#text-desc{
+    font-size: 30%;
+    color: gray;
 }
 
 .text-4{
