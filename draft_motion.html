@@ -50,29 +50,35 @@
     </div>
 
     <script>
-    const form = document.getElementById('draftForm');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const name = document.getElementById('name').value;
-        const details = document.getElementById('details').value;
-        console.log('Name:', name);
-        console.log('Details:', details);
+        document.getElementById('draftForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-        const motion = {
-                name,
-                details
-            };
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('details').value;
 
-            // Get existing motions from localStorage, or initialize an empty array
-            const motions = JSON.parse(localStorage.getItem('motions')) || [];
-            
-            motions.push(motion);
-            
-            localStorage.setItem('motions', JSON.stringify(motions));
+            try {
+                const response = await fetch('http://localhost:3000/addMotion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, description }),
+                });
 
-            // Clear the form after submission
-            this.reset();
-    });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Motion added successfully:', data);
+                alert('Motion added successfully!');
+                // Optionally, redirect to another page
+                window.location.href = 'team_home.html';
+            } catch (error) {
+                console.error('Error adding motion:', error);
+                alert('Error adding motion. Please try again.');
+            }
+        });
 
     function navigateToViewMotions() {
         window.location.href = 'view_motions.html'; // Specify the correct path to your view motions page
