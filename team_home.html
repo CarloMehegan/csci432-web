@@ -11,12 +11,8 @@
         <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
         <div class="side-bar">
             <div class="text-2">Motion Queue</div>
-            <div class="queue-item">
-            </div>
-            <div class="queue-item">
-            </div>
-            <div class="queue-item">
-            </div>
+            <div id="motion-queue"></div>
+            <button id="draft-motion-button" class="queue-item">Draft Motion</button> <!-- Draft Motion button -->
         </div>
         <div class="main-body">
             <div class="top-bar">
@@ -54,6 +50,9 @@
 </html>
 
 <script>
+    document.getElementById('draft-motion-button').addEventListener('click', () => {
+            window.location.href = 'draft_motion.html';
+        });
     fetch('http://localhost:3000/current')
     .then(response => response.json())
     .then(data => {
@@ -86,4 +85,22 @@
     .catch((error) => {
         console.error('Error:', error);
     });
+
+    fetch('http://localhost:3000/current')
+        .then(response => response.json())
+        .then(data => {
+            const committeeName = data.currentCommitteeName;
+            return fetch(`http://localhost:3000/motions/${encodeURIComponent(committeeName)}`);
+        })
+        .then(response => response.json())
+        .then(motions => {
+            const motionQueue = document.getElementById('motion-queue');
+            motions.forEach(motion => {
+                const motionDiv = document.createElement('div');
+                motionDiv.classList.add('queue-item');
+                motionDiv.textContent = motion.name;
+                motionQueue.appendChild(motionDiv);
+            });
+        })
+        .catch(error => console.error('Error:', error));
 </script>

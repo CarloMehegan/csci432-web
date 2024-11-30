@@ -221,18 +221,18 @@ app.get('/userEmail/:email', async (req, res) => {
 
  //get all motions by committee
  app.get('/motions/:committee', async (req, res) => {
-  const committeeName2 = req.params.name;
+  const committeeName = req.params.committee;
   try {
-    const motions = await motions.findAll({ committeeName: committeeName2 });
-    if (motions) {
-      res.status(200).json(motions);
+    const motionsList = await motions.find({ committeeName }).toArray();
+    if (motionsList.length > 0) {
+      res.status(200).json(motionsList);
     } else {
       res.status(404).send('Motions not found');
     }
   } catch (error) {
     res.status(500).send('Error retrieving motions');
   }
- });
+});
 
  //update current user using email
  app.post('/updateCurrentUser', async (req, res) => {
@@ -291,6 +291,35 @@ app.post('/updateCurrentCommittee', async (req, res) => {
     res.status(500).send('Error retrieving current');
   }
  });
+
+ // Add a new motion
+app.post('/addMotion', async (req, res) => {
+  const { name, description } = req.body;
+  const current1 = 1;
+  if (!name || !description) {
+    return res.status(400).json({ message: 'Name and description are required' });
+  }
+
+  try {
+    const currentInfo = await current.findOne({ id: current1 });
+    const newMotion = {
+      name,
+      description,
+      for: 0,
+      against: 0,
+      status: 'active',
+      decision: 'pending',
+      committeeName: currentInfo.currentCommitteeName
+    };
+
+    const result = await motions.insertOne(newMotion);
+
+    res.status(201).json({ message: 'Motion added successfully', result });
+  } catch (error) {
+    console.error('Error adding motion:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 //Route to get all committee members
 // app.get('/committeeMembers', (req, res) => {

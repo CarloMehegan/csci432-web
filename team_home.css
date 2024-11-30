@@ -30,13 +30,18 @@ body{
     border-right: solid, 1px, gray;
 }
 
+
+
 .queue-item{
     display: flex;
     flex-direction: column;
     border: solid, 1px, black;
     border-radius: 5px;
     width:75%;
-    height: 100px;
+    height: 65px;
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .main-body{
@@ -131,4 +136,22 @@ img{
     border-radius: 4px; /* Rounded corners */
     cursor: pointer; /* Change cursor on hover */
     font-weight: bold; /* Make the text bold */
+}
+
+#draft-motion-button {
+    padding: 10px 15px; /* Add some padding */
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+    font-weight: bold; /* Make the text bold */
+    margin-top: 10px; /* Add some margin on top */
+    text-align: center; /* Center the text */
+    display: block; /* Make it a block element */
+    width: 85%; /* Full width */
+}
+
+#draft-motion-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
 }
