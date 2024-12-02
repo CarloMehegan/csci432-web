@@ -88,8 +88,8 @@
                     alert('Committee created successfully!');
                     form.reset();
                     memberList = [];
-                    console.log("Member list after reset: ",memberList);
                     memberListContainer.innerHTML = ''; // Clear the member list
+                    window.location.href = 'team_home.html';
                 } else {
                     const errorData = await response.json();
                     alert(`Error creating committee: ${errorData.message}`);

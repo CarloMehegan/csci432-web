@@ -152,6 +152,19 @@ app.post('/create-committee', async (req, res) => {
     const result = await committees.insertOne(newCommittee);
     console.log('Insertion result:', result); 
 
+      // Add the committee name to each user's `committees` array
+      const userUpdateResults = await Promise.all(
+        emails.map(email =>
+          users.updateOne(
+            { email },
+            { $addToSet: { committees: name } }, // Add the committee name if it doesn't already exist in the array
+            { upsert: false } // Do not create a new user if the email doesn't exist
+          )
+        )
+      );
+  
+      console.log('User update results:', userUpdateResults)
+
     res.status(201).json({ message: 'Committee successfully created' });
   } catch (error) {
     console.error('Error saving committee:', error);
