@@ -5,7 +5,7 @@ html{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url(home-imgs/art.png.png);
+    background-image: url(home-imgs/wavybg.png);
     background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
@@ -17,6 +17,9 @@ html{
     height: 500px;
 }
 
+img{
+    width: 100%;
+}
 
 .h1 {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -28,7 +31,8 @@ html{
     transform: translate(15px, -15px);
     width: 320px;
     height: 462px;
-    background-color: #eeeef6;
+    /*background-color: #eeeef6;*/
+    background-color: rgba(255,255,255,0.6);
     background-blend-mode: luminosity;
     display: flex;
     flex-direction: column;
@@ -43,15 +47,15 @@ html{
 
 .login-info{
     text-align: center;
-    color: darkgray;
+    color: rgb(60, 60, 75);
     font-size: 20px;
-    font-family : 'Pacifico', cursive;
+    font-family : 'Franklin Gothic Medium', cursive;
     margin-bottom: -20px;
 }
 
 .rr-logo{
     color: rgb(16, 15, 15);
-    font-family: 'Pacifico', cursive;
+    font-family: 'Arial', cursive;
     font-size: 35px;
     font-weight: bold; 
     text-align: center;
@@ -65,7 +69,7 @@ form{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 20px;
+    margin-top: 45px;
 }
 
 input[type="text"], input[type="password"]{
@@ -83,11 +87,11 @@ form label{
 form input{
     display: block;
     margin-left: -20px;
-    margin-bottom: -18px;
+    margin-bottom: 11px;
     width: 272px;
     padding:2px;
     border: none; 
-    margin-top: 2px;
+    margin-top: 9px;
 }
 
 .signup input{
@@ -114,6 +118,7 @@ form input{
     background-color: transparent;
     margin-bottom : 10px;
     margin-top: -10px;
+    font-size: 15px;
 }
 
 .forgot-password{
@@ -122,19 +127,20 @@ form input{
     cursor: pointer;
     background-color: transparent;
     margin-bottom: 30px;
+    font-size: 15px;
 }
 
 .sign-in-button{
-    background-color: rgb(189, 39, 76);
+    background-color: rgb(207, 64, 112);
     color: white;
     padding: 10px 20px;
     text-align: center;
     display: inline-block;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
-    margin-left: 40px;
-    margin-bottom: 20px;
-    margin-top: -10px;
+    margin-left: 100px;
+    margin-bottom: 15px;
+    margin-top: 20px;
 }
 
 .register{
