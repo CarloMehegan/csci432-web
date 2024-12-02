@@ -30,7 +30,7 @@
     
     <script>
             document.addEventListener('DOMContentLoaded', () => {
-        const memberList = [];
+        let memberList = [];
         const memberListContainer = document.getElementById('member-list');
         const addMemberButton = document.getElementById('add-member');
         const form = document.getElementById('create-committee-form');
@@ -87,6 +87,8 @@
                 if (response.ok) {
                     alert('Committee created successfully!');
                     form.reset();
+                    memberList = [];
+                    console.log("Member list after reset: ",memberList);
                     memberListContainer.innerHTML = ''; // Clear the member list
                 } else {
                     const errorData = await response.json();
