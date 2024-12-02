@@ -11,7 +11,7 @@
         <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
 
         <div>Create Committee</div>
-        <form class="create">
+        <form id="create-committee-form" class="create">
             <div class="section">
                 <label for="name">Committee Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -23,9 +23,83 @@
                 <input type="text" id="role" name="role">
                 <button type="button" id = "add-member">Add</button>
             </div>
+            <div id="member-list"></div>
+            <button type="submit">Submit</button>
         </form>
-        <button type="submit">Submit</button>
     </div>
     
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+        let memberList = [];
+        const memberListContainer = document.getElementById('member-list');
+        const addMemberButton = document.getElementById('add-member');
+        const form = document.getElementById('create-committee-form');
+
+        // Add a member to the list
+        addMemberButton.addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const role = document.getElementById('role').value;
+
+            if (email && role) {
+                memberList.push({ email, role });
+                const memberDiv = document.createElement('div');
+                memberDiv.textContent = `Email: ${email}, Role: ${role}`;
+                memberListContainer.appendChild(memberDiv);
+                console.log("Member list: ",memberList);
+
+                // Clear inputs
+                document.getElementById('email').value = '';
+                document.getElementById('role').value = '';
+            } else {
+                alert('Please enter both email and role.');
+            }
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            const committeeName = document.getElementById('name').value;
+
+            if (!committeeName) {
+                alert('Please enter a committee name.');
+                return;
+            }
+            const emails = memberList.map(member => member.email);
+            const roles = memberList.map(member => member.role);
+
+
+            const payload = {
+                name: committeeName,
+                emails,
+                roles,
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/create-committee', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    alert('Committee created successfully!');
+                    form.reset();
+                    memberList = [];
+                    memberListContainer.innerHTML = ''; // Clear the member list
+                    window.location.href = 'team_home.html';
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error creating committee: ${errorData.message}`);
+                }
+            } catch (error) {
+                alert('An error occurred while creating the committee.');
+                console.error('Error:', error);
+            }
+        });
+    });
+    </script>
 </body>
 </html>
