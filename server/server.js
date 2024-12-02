@@ -120,7 +120,9 @@ app.post('/login', async (req, res) => {
   });
 
 //Post method to create a committee and save the information
-app.get('/create-committee', async (req, res) => {
+
+app.post('/create-committee', async (req, res) => {
+  console.log('Create committee request received');
   const {name, emails, roles} = req.body; //how do i make this match forms using arrays
 
   if(!name || !emails || !roles) {
@@ -132,7 +134,7 @@ app.get('/create-committee', async (req, res) => {
 
   try {
     // Check if the email already exists
-    const commiteename = await users.findOne({ name });
+    const commiteename = await committees.findOne({ name });
     if (commiteename) {
       return res.status(409).json({ message: 'Committee name already in use, please choose a new name' });
     }
@@ -147,7 +149,7 @@ app.get('/create-committee', async (req, res) => {
 
     console.log('New committee:', newCommittee);
 
-    const result = await users.insertOne(newCommittee);
+    const result = await committees.insertOne(newCommittee);
     console.log('Insertion result:', result); 
 
     res.status(201).json({ message: 'Committee successfully created' });
