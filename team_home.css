@@ -1,4 +1,13 @@
 /* General styles */
+:root {
+    --color1: #AD3176;
+    --color2: #E8C4D4;
+    --color3: #C6E6DB;
+    --color4: #006B8F;
+    --color5: #003E7F;
+    --color6: #885A5A;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -7,6 +16,7 @@ body {
 }
 
 .web-container {
+    
     display: flex;
     height: 100vh;
 }
@@ -16,22 +26,23 @@ body {
     top: 10px;
     right: 10px;
     padding: 8px 12px;
-    background-color: #000000;
+    background-color: var(--color2);
     color: white;
     text-decoration: none;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    
 }
 
 .home-button:hover {
-    background-color: #333333;
+    background-color: var(--color1);
 }
 
 .side-bar {
     width: 250px;
-    background-color: #2c3e50;
+    background-color: var(--color5);
     color: white;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -43,7 +54,7 @@ body {
 }
 
 .queue-item {
-    background-color: #34495e;
+    background-color: var(--color4);
     color: white;
     padding: 10px;
     margin-bottom: 10px;
@@ -53,13 +64,11 @@ body {
     text-align: center;
 }
 
-.queue-item:hover {
-    background-color: #3b5998;
-}
+
 
 #draft-motion-button {
     padding: 10px 15px;
-    background-color: #007BFF;
+    background-color: var(--color1);
     color: white;
     border: none;
     border-radius: 4px;
@@ -72,13 +81,14 @@ body {
 }
 
 #draft-motion-button:hover {
-    background-color: #0056b3;
+    background-color: var(--color3);
 }
 
 .main-body {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
+    margin-top: 40px;
 }
 
 .top-bar {
