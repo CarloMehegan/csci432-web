@@ -31,10 +31,14 @@
                 <div id="text-desc"></div>
                 <div class="motion-bottom">
                     <div class="voting-info">
-                        <div class="text-5">4</div>
-                        <img src="team-imgs/check.png" alt="">
-                        <div class="text-5">2</div>
-                        <img src="team-imgs/ex.png" alt="">
+                        <div id="votes-yes" class="text-5">4</div>
+                        <button id="vote-yes-button" class="vote-button">
+                            <img src="team-imgs/check.png" alt="Yes">
+                        </button>
+                        <div id="votes-no" class="text-5">2</div>
+                        <button id="vote-no-button" class="vote-button">
+                            <img src="team-imgs/ex.png" alt="No">
+                        </button>
                     </div>
                     <div class="text-4">Raise Sub-Motion</div>
                     <a href="close_motion.html"><div class="text-4">Close Motion</div></a>
@@ -48,6 +52,8 @@
         </div>
 
     </div>
+    <script type="text/javascript" src="vote_buttons.js"></script>
+
 </body>
 </html>
 
