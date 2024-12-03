@@ -98,6 +98,29 @@
                 alert('An error occurred while creating the committee.');
                 console.error('Error:', error);
             }
+
+            try {
+                        const response = await fetch('http://localhost:3000/updateCurrentCommittee', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ name: committeeName }), // Correct field name
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        console.log('Update successful:', data);
+
+                        // Navigate to the new page after the fetch request completes
+                        window.location.href = `team_home.html`;
+                    } catch (error) {
+                        console.error('Error updating current committee:', error);
+                        alert('Error updating current committee. Please try again.');
+                    }
         });
     });
     </script>
