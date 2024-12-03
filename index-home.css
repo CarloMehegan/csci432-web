@@ -1,14 +1,5 @@
-:root {
-    --color1: #AD3176;
-    --color2: #E8C4D4;
-    --color3: #C6E6DB;
-    --color4: #006B8F;
-    --color5: #003E7F;
-    --color6: #885A5A;
-}
-
 body{
-    background-color: white;
+    background-color: #f4f4f4;
 }
 .web-container{
     display: flex;
@@ -63,6 +54,9 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 11px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);    transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for smooth effect */
+    border: none; /* Ensure no border */
+
 }
 
 .team:nth-child(2n) {
@@ -102,3 +96,29 @@ a {
     text-decoration: none;
     color: black;
 }
+
+#toggleDarkMode {
+    padding: 5px 10px; /* Smaller padding */
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+    font-size: 0.8em; /* Smaller font size */
+    position: absolute; /* Position it absolutely */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+}
+
+#toggleDarkMode:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/*.outer-teams{
+    
+        background-color: thistle;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Inset shadow for sunken effect 
+    
+}*/

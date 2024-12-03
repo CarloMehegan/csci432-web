@@ -3,87 +3,60 @@
     you can select one of your draft motions to show to everyone and make
     the current motion. this motion will be added to the workspace's motion history. -->
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="draft_motion.css">
-</head>
-
-<body>
-    <div id="container">
-    <header id="header">
-        <h1 class="title">Draft a motion!</h1>
-        <h2>This will save the motion to your drafted motion list.</h2>
-    </header>
-
-    <section id="login-section">
-        <h2 class="subtitle">Motion</h2>
-        <form id="draftForm">
-        <div class="form-group">
-            <label for="name" class="label">Motion name:</label>
-            <input type="text" id="name" name="name" class="input-field" required><br><br>
-            
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Draft Motion</title>
+        <link rel="stylesheet" href="draft_motion.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Draft a New Motion</h1>
+            <form id="draftForm">
+                <div class="section">
+                    <label for="name">Motion Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="section">
+                    <label for="details">Description:</label>
+                    <textarea id="details" name="details" rows="4" required></textarea>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="details" class="label">Motion details:</label>
-            <textarea id="details" name="details" class="input-field" required></textarea><br><br>
-            <!-- <input type="text" id="details" name="details" class="input-field" required><br><br> -->
-        </div>
-        <button type="submit" id="submitButton" class="btn">Submit</button>
-        </form>
-    </section>
-
-    <footer id="footer">
-        <p class="footer-text">
-            Draft motions will be saved to your draft list.
-            These are not active motions, and cannot be seen by others.
-            When you are given the floor to propose a motion,
-            you can select one of your draft motions to become the new, current motion.
-        </p>
-
-        <button id="viewMotionsButton" class="btn" onclick="navigateToViewMotions()">View Motions</button>
-    </footer>
-    </div>
-
-    <script>
-        document.getElementById('draftForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const description = document.getElementById('details').value;
-
-            try {
-                const response = await fetch('http://localhost:3000/addMotion', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name, description }),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+    
+        <script>
+            document.getElementById('draftForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+    
+                const name = document.getElementById('name').value;
+                const description = document.getElementById('details').value;
+    
+                try {
+                    const response = await fetch('http://localhost:3000/addMotion', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name, description }),
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+    
+                    const data = await response.json();
+                    console.log('Motion added successfully:', data);
+                    alert('Motion added successfully!');
+                    // Redirect to team_home.html after successful submission
+                    window.location.href = 'team_home.html';
+                } catch (error) {
+                    console.error('Error adding motion:', error);
+                    alert('Error adding motion. Please try again.');
                 }
-
-                const data = await response.json();
-                console.log('Motion added successfully:', data);
-                alert('Motion added successfully!');
-                // Optionally, redirect to another page
-                window.location.href = 'team_home.html';
-            } catch (error) {
-                console.error('Error adding motion:', error);
-                alert('Error adding motion. Please try again.');
-            }
-        });
-
-    function navigateToViewMotions() {
-        window.location.href = 'view_motions.html'; // Specify the correct path to your view motions page
-    }
-    </script>
-</body>
-
-</html>
+            });
+        </script>
+    </body>
+    </html>
