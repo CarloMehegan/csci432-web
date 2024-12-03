@@ -68,19 +68,19 @@ body{
 
 }
 
-.team:nth-child(2n) {
+.team:nth-child(4n+1) {
     background-color: var(--color1);
 }
 
-.team:nth-child(4n) {
+.team:nth-child(4n+2) {
     background-color: var(--color2);
 }
 
-.team:nth-child(6n) {
+.team:nth-child(4n+3) {
     background-color: var(--color3);
 }
 
-.team:nth-child(8n) {
+.team:nth-child(4n+4) {
     background-color: var(--color4);
 }
 
