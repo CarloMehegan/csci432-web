@@ -376,7 +376,7 @@ app.post('/close-motion', async (req, res) => {
       return res.status(404).json({ message: 'Committee not found' });
     }
 
-    const currentMotionName = currentCommittee.currentMotion;
+    const currentMotionName = currentCommittee.currentmotionName;
 
     if (!currentMotionName) {
       return res.status(400).json({ message: 'No active motion to close' });
