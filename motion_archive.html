@@ -10,6 +10,42 @@
     <div class="web-container">
         <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
         <div class="title">Motion Archive</div>
+        <div class = "motionContainer"></div>
     </div> 
 </body>
 </html>
+
+<script>
+    async function fetchMotions() {
+        try {
+            let committeeID = 1;
+            //fix this once we pass parameters across pages
+            const response = await fetch('http://localhost:3000//motions/:committee', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ committeeID })
+            });
+                                    
+            const result = await response.json();
+            alert(result.message);
+                                    
+            if (response.ok) {
+                const container = document.getElementById('motionsContainer');
+                result.forEach(motion => {
+                    const element = document.createElement('div');
+                    element.className = 'motion';
+                    element.textContent = JSON.stringify(motion);
+                    container.appendChild(element);
+                });
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    fetchMotions();
+</script>
+
+//accepted vs. rejected vs. pending

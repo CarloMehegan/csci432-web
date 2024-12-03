@@ -18,6 +18,13 @@ body{
     justify-content: flex-start;
 
 }
+.motion {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
 /* Styles for the Home button */
 .home-button {
     position: absolute; /* Position it in the top left corner */
