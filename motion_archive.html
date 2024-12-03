@@ -28,9 +28,7 @@
     .then(data => {
         const container = document.getElementById('motionContainer');
         container.innerHTML = '';
-        data
-        //.filter(motion => motion.status === 'closed')
-        .forEach(motion => {
+        data.filter(motion => motion.status?.toLowerCase() === "closed").forEach(motion => {
             const element = document.createElement('div');
             element.className = 'motion';
 
