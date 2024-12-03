@@ -18,7 +18,13 @@
 <script>
     async function fetchMotions() {
         try {
-            let committeeID = 1;
+            let committeeID= await fetch('http://localhost:3000/current', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ committeeID })
+            });
             //fix this once we pass parameters across pages
             const response = await fetch('http://localhost:3000//motions/:committee', {
                 method: 'GET',
