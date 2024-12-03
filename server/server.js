@@ -130,7 +130,7 @@ app.post('/create-committee', async (req, res) => {
   }
 
   const discussionfile =null; //initialize discussion file
-  const motions = []; //initialize motions (might need to change)
+  const currentmotionName = ""; //initialize motions (might need to change)
 
   try {
     // Check if the email already exists
@@ -144,7 +144,7 @@ app.post('/create-committee', async (req, res) => {
       emails,
       roles,
       discussionfile,
-      motions
+      currentmotionName
     };
 
     console.log('New committee:', newCommittee);
