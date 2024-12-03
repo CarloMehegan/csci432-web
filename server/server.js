@@ -315,6 +315,9 @@ app.post('/addMotion', async (req, res) => {
     return res.status(400).json({ message: 'Name and description are required' });
   }
 
+  const users =[];
+  const messages = [];
+
   try {
     const currentInfo = await current.findOne({ id: current1 });
     const newMotion = {
@@ -324,7 +327,9 @@ app.post('/addMotion', async (req, res) => {
       against: 0,
       status: 'active',
       decision: 'pending',
-      committeeName: currentInfo.currentCommitteeName
+      committeeName: currentInfo.currentCommitteeName,
+      users,
+      messages
     };
 
     const result = await motions.insertOne(newMotion);
@@ -351,6 +356,51 @@ app.get('/current-user-email', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
   });
+
+//Post method to push messages for motion discussion to array
+app.post('/addMessage', async (req, res) => {
+  const { message } = req.body;
+  const current1 = 1;
+  if (!message) {
+    return res.status(400).json({ message: 'Message is required' });
+  }
+
+  try {
+    const currentInfo = await current.findOne({ id: current1 });
+    
+    console.log('Current Motion Name:', currentInfo.currentMotionName);
+    const motion = await motions.findOne({ name: currentInfo.currentMotionName });
+    
+    //ensure motion exists
+    if (!motion) {
+      return res.status(404).json({ message: 'Motion not found' });
+    }
+
+    // Ensure messages array exists, even if empty
+    if (!Array.isArray(motion.messages)) {
+      motion.messages = [];
+    }
+
+    motion.messages.push(message);
+    console.log("Message: ", message);
+
+
+    const result = await motions.updateOne(
+      { name: currentInfo.currentUserName },
+      { $set: { messages: motion.messages } }
+    );
+
+    res.status(201).json({ message: 'Message added successfully', result });
+  } catch (error) {
+    console.error('Error adding message:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+//get method to retrieve the motion messages
+app.get('/getMessages',(req,res) =>{
+  res.json({ messages });
+});
 
 //Start the server on port
 app.listen(port, () => {

@@ -77,16 +77,40 @@
             const form = document.getElementById('messageForm');
             const messageBox = document.getElementById('message-box');
 
-            form.addEventListener('submit', function (event) {
+
+            //Function to populate existing messages
+            async function loadMessages(){
+                const response = await fetch('http://localhost:3000/getMessages');
+                const data = await response.json();
+                data.messages.forEach(message =>{
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
+                    messageElement.innerHTML = `<span class="username">${message.username}:</span> ${message.message}`;
+                    messageBox.appendChild(messageElement);
+                });
+                messageBox.scrollTop = messageBox.scrollHeight;
+            }
+            form.addEventListener('submit', async function (event) {
                 event.preventDefault();
                 
                 // Get the message input value
                 const messageInput = document.getElementById('messageInput');
                 const message = messageInput.value.trim();
+                const username = "current user";
 
                 // If there's a non-empty message, add it to the message box
                 if(message) {
+                    //Send post request to add new message
+                    const response = await fetch ('http://localhost:3000/addMessage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({username: username, message: message}),
+                    });
+
                     // Create a new message element
+                    if(response.ok){
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `<span class="username">You:</span> ${message}`;
@@ -99,10 +123,10 @@
                     
                     // Scroll to the bottom of the message box
                     messageBox.scrollTop = messageBox.scrollHeight;
+                    }
                 }
             });
         </script>
     </div>
 </body>
-
 </html>
