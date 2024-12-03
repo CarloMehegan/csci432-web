@@ -29,11 +29,27 @@
     </div>
     
     <script>
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('DOMContentLoaded', async() => {
         let memberList = [];
         const memberListContainer = document.getElementById('member-list');
         const addMemberButton = document.getElementById('add-member');
         const form = document.getElementById('create-committee-form');
+
+        //Automatically populate the current user email
+        let userEmail = '';
+        document.getElementById('email').value = userEmail;
+            try {
+                const userResponse = await fetch('http://localhost:3000/current-user-email');
+                const userData = await userResponse.json();
+                if (userResponse.ok) {
+                    userEmail = userData.email;
+                    document.getElementById('email').value = userEmail;
+                } else {
+                    alert(`Error fetching user email: ${userData.message}`);
+                }
+            } catch (error) {
+                console.error('Error fetching user email:', error);
+            }
 
         // Add a member to the list
         addMemberButton.addEventListener('click', () => {

@@ -336,26 +336,21 @@ app.post('/addMotion', async (req, res) => {
   }
 });
 
-//Route to get all committee members
-// app.get('/committeeMembers', (req, res) => {
-//     res.json(committeeMembers);
-// });
-
-// // GET endpoint to retrieve committees
-// app.get('/api/committees', (req, res) => {
-//     res.json(committees);
-// });
-
-// // GET endpoint to retrieve a specific committee by ID
-// app.get('/committees/:id', (req, res) => {
-//     const committeeId = parseInt(req.params.id, 10);
-//     const committee = committees.find(c => c.id === committeeId);
-//     if (committee) {
-//         res.json(committee);
-//     } else {
-//         res.status(404).send('Committee not found');
-//     }
-// });
+//Get the current user email
+app.get('/current-user-email', async (req, res) => {
+  try {
+    const currentInfo = await current.findOne({ id: 1 });
+    console.log(currentInfo);
+    if (currentInfo && currentInfo.currentUserName) {
+      res.status(200).json({ email: currentInfo.currentUserName });
+    } else {
+      res.status(404).json({ message: 'Current user not found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving current user email:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+  });
 
 //Start the server on port
 app.listen(port, () => {
