@@ -40,3 +40,28 @@ body{
     font-weight: bold; /* Make the text bold */
 }
 
+#motionContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.motion {
+    padding: 15px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+.motion-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+.motion-content {
+    font-size: 0.9em;
+    color: #555;
+}
