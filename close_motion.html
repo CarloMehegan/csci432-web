@@ -49,6 +49,7 @@
                     if (data.nextMotion) {
                         alert("Next Motion: " + data.nextMotion);
                     }
+                    window.location.href = 'team_home.html';
                 } else {
                     const errorData = await response.json();
                     alert("Error: " + errorData.message);

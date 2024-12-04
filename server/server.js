@@ -129,7 +129,10 @@ app.post('/create-committee', async (req, res) => {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const currentmotion = [];
+
+  const discussionfile =null; //initialize discussion file
+  const currentmotionName = ""; //initialize motions (might need to change)
+
 
   try {
     // Check if the email already exists
@@ -143,7 +146,7 @@ app.post('/create-committee', async (req, res) => {
       emails,
       roles,
       discussionfile,
-      motions
+      currentmotionName
     };
 
     console.log('New committee:', newCommittee);
@@ -377,7 +380,7 @@ app.post('/addMotion', async (req, res) => {
       description,
       for: 0,
       against: 0,
-      status: 'active',
+      status: 'pending',
       decision: 'pending',
       committeeName: currentInfo.currentCommitteeName,
       users: [],
@@ -385,6 +388,19 @@ app.post('/addMotion', async (req, res) => {
     };
 
     const result = await motions.insertOne(newMotion);
+
+    const currentCommittee = await committees.findOne({ name: currentInfo.currentCommitteeName });
+
+    if(currentCommittee.currentmotionName === "") {
+      await committees.updateOne(
+        { name: currentInfo.currentCommitteeName },
+        { $set: { currentmotionName: name } }
+      );
+      await motions.updateOne(
+        { name: name, committeeName: currentInfo.currentCommitteeName },
+        { $set: { status: 'Active' } }
+      );
+    }
 
     res.status(201).json({ message: 'Motion added successfully', result });
   } catch (error) {
@@ -408,6 +424,7 @@ app.get('/current-user-email', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
   });
+
 
 //Post method to push messages for motion discussion to array
 app.post('/addMessage', async (req, res) => {
@@ -498,67 +515,73 @@ app.get('/getMessages', async (req, res) => {
 });
 
 
-    // Close a motion and update the next motion in queue
+
+
+ 
+  // Close a motion and update the next motion in queue
   app.post('/close-motion', async (req, res) => {
-  const { decision, description } = req.body;
+    const { decision, description } = req.body;
+    if (!decision || !description) {
+      return res.status(400).json({ message: 'Decision and description are required' });
 
-  if (!decision || !description) {
-    return res.status(400).json({ message: 'Decision and description are required' });
-  }
-
-  try {
-    // Get the current committee info
-    const currentInfo = await current.findOne({ id: 1 });
-
-    if (!currentInfo || !currentInfo.currentCommitteeName) {
-      return res.status(404).json({ message: 'No current committee selected' });
     }
-
-    const currentCommittee = await committees.findOne({
-      name: currentInfo.currentCommitteeName,
-    });
-
-    if (!currentCommittee) {
-      return res.status(404).json({ message: 'Committee not found' });
-    }
-
-    const currentMotionName = currentCommittee.currentmotionName;
-
-    if (!currentMotionName) {
-      return res.status(400).json({ message: 'No active motion to close' });
-    }
-
-    // Update the current motion's status and decision
-    await motions.updateOne(
-      { name: currentMotionName, committeeName: currentInfo.currentCommitteeName },
-      { $set: { status: 'Closed', decision, description } }
-    );
-
-    // Get the next motion in the queue
-    const nextMotion = currentCommittee.motions.shift();
-
-    if (!nextMotion) {
-      return res.status(404).json({ message: "No more motions in the queue" });
-    }
-
-    // Update the committee's currentMotion and motion queue
-    await committees.updateOne(
-      { name: currentInfo.currentCommitteeName },
-      {
-        $set: { currentMotion: nextMotion || null },
-        $pull: { motions: currentMotionName }, // Remove the closed motion from the queue
+    try {
+      // Get the current committee info
+      const currentInfo = await current.findOne({ id: 1 });
+      if (!currentInfo || !currentInfo.currentCommitteeName) {
+        return res.status(404).json({ message: 'No current committee selected' });
       }
-    );
+      const currentCommittee = await committees.findOne({
+        name: currentInfo.currentCommitteeName,
+      });
+      if (!currentCommittee) {
+        return res.status(404).json({ message: 'Committee not found' });
+      }
+      const currentMotionName = currentCommittee.currentmotionName;
+      if (!currentMotionName) {
+        return res.status(400).json({ message: 'No active motion to close' });
+      }
+      // Update the current motion's status and decision
+      await motions.updateOne(
+        { name: currentMotionName, committeeName: currentInfo.currentCommitteeName },
+        { $set: { status: 'Closed', decision, description } }
+      );
+      // Fetch all motions for the committee
+      const motionsList = await motions
+        .find({ committeeName: currentInfo.currentCommitteeName, status: 'pending' })
+        .toArray();
+      if (motionsList.length === 0) {
+        // If no motions remain, clear the current motion
+        await committees.updateOne(
+          { name: currentInfo.currentCommitteeName },
+          { $set: { currentmotionName: null } }
+        );
+        return res.status(200).json({
+          message: 'Motion closed successfully. No more motions in the queue.',
+        });
+      }
+      // Select the next motion (e.g., the first in the list; adjust as needed for order)
+      const nextMotion = motionsList[0];
+      // Update the committee's current motion
+      await committees.updateOne(
+        { name: currentInfo.currentCommitteeName },
+        { $set: { currentmotionName: nextMotion.name } }
+      );
 
-    res.status(200).json({
-      message: 'Motion closed successfully',
-      nextMotion: nextMotion || 'No more motions in the queue',
-    });
-  } catch (error) {
-    console.error('Error closing motion:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+      await motions.updateOne(
+        { name: nextMotion.name },
+        { $set: { status: 'Active' } }
+      );
+
+      res.status(200).json({
+        message: 'Motion closed successfully.',
+        nextMotion: nextMotion.name,
+      });
+    } catch (error) {
+      console.error('Error closing motion:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
 
 //get method to retrieve the motion messages
 app.get('/getMessages',(req,res) =>{
