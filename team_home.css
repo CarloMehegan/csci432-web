@@ -19,6 +19,8 @@ body {
     
     display: flex;
     height: 100vh;
+    background-image: url(home-imgs/wavybg.png);
+    background-size: cover;
 }
 
 .home-button {

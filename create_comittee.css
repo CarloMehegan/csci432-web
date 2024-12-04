@@ -13,6 +13,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    background-image: url(home-imgs/wavybg.png);
+    background-size: cover;
 }
 
 .web-container {
@@ -20,6 +22,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px;
+
 }
 
 form {

@@ -9,6 +9,8 @@
 
 body{
     background-color: #f4f4f4;
+    background-image: url(home-imgs/wavybg.png);
+    background-size: cover;
 }
 .web-container{
     display: flex;

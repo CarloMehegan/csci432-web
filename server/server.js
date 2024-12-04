@@ -494,6 +494,7 @@ app.get('/getMessages', async (req, res) => {
     }
 
     const committee = await committees.findOne({ name: currentInfo.currentCommitteeName });
+    console.log(committee);
     if(!committee) {
       return res.status(404).json({ message: 'Committee not found' });
     }
@@ -583,10 +584,10 @@ app.get('/getMessages', async (req, res) => {
     }
   });
 
-//get method to retrieve the motion messages
-app.get('/getMessages',(req,res) =>{
-  res.json({ messages });
-});
+// //get method to retrieve the motion messages
+// app.get('/getMessages',(req,res) =>{
+//   res.json({ messages });
+// });
 
 // Get the current motion of a committee
 app.get('/current-motion', async (req, res) => {
