@@ -99,28 +99,13 @@
                             },
                             body: JSON.stringify({ name: item }), // Correct field name
                         });
-                        
-                        console.log('Response:', response);
+
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
 
-                        
-                        console.log('Updating current motion:');
-                        const motionresponse = await fetch('http://localhost:3000/updateCurrentMotion', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        });
-
-                        if (!motionresponse.ok) {
-                            throw new Error(`HTTP error! status: ${motionresponse.status}`);
-                        }
-
-                        const motiondata = await response.json();
-                        console.log('Update successful:', motiondata);
-
+                        const data = await response.json();
+                        console.log('Update successful:', data);
 
                         // Navigate to the new page after the fetch request completes
                         window.location.href = `team_home.html`;

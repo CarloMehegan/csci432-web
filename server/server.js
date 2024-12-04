@@ -275,7 +275,6 @@ app.get('/userEmail/:email', async (req, res) => {
 //update current committee
 // Update current committee
 app.post('/updateCurrentCommittee', async (req, res) => {
-  console.log('Update current committee request received');
   const { name } = req.body;
   if (!name) {
     return res.status(400).send('Name is required');
@@ -287,12 +286,13 @@ app.post('/updateCurrentCommittee', async (req, res) => {
       { $set: { currentCommitteeName: name } },
       { upsert: true }
     );
-    console.log(result)
-      } catch (error) {
-        console.error('Error updating current committee', error);
-        res.status(500).send('Error updating current committee');
-      }
-console.log('Current committee name updated:', name);
+
+
+    res.status(200).json({ message: 'Current committee name updated successfully', result });
+  } catch (error) {
+    console.error('Error updating current committee name:', error);
+    res.status(500).send('Error updating current committee name');
+  }
 });
 
 //update current motion
@@ -420,29 +420,45 @@ app.post('/addMessage', async (req, res) => {
   try {
     const currentInfo = await current.findOne({ id: current1 });
     
-    console.log('Current Motion Name:', currentInfo.currentMotionName);
-    const motion = await motions.findOne({ name: currentInfo.currentMotionName });
+    const committee = await committees.findOne({ name: currentInfo.currentCommitteeName });
+        if (!committee) {
+            return res.status(404).json({ message: 'Committee not found' });
+        }
     
+    
+    const motion = await motions.findOne({ name: currentInfo.currentMotionName });
+    console.log('Current Motion:', motion);
+
     //ensure motion exists
     if (!motion) {
       return res.status(404).json({ message: 'Motion not found' });
     }
 
-    // Ensure messages array exists, even if empty
-    if (!Array.isArray(motion.messages)) {
-      motion.messages = [];
-    }
-
-    motion.messages.push(message);
-    console.log("Message: ", message);
-
-
-    const result = await motions.updateOne(
-      { name: currentInfo.currentUserName },
-      { $set: { messages: motion.messages } }
-    );
-
-    res.status(201).json({ message: 'Message added successfully', result });
+       // Update the messages array and ensure it exists
+       const updatedMessages = Array.isArray(motion.messages) ? [...motion.messages, message] : [message];
+       const updatedUsers = Array.isArray(motion.users)
+         ? [...motion.users, currentInfo.currentUserName]
+         : [currentInfo.currentUserName]; // Use a Set to ensure uniqueness
+   
+       // Update the motion in the database
+       const result = await motions.updateOne(
+         { name: currentInfo.currentMotionName }, // Find motion by its name
+         {
+           $set: {
+             messages: updatedMessages,
+             users: updatedUsers,
+           },
+         }
+       );
+   
+       if (result.nModified === 0) {
+         return res.status(500).json({ message: 'Failed to update the motion' });
+       }
+   
+       console.log('Updated motion messages:', updatedMessages);
+       console.log('Updated motion users:', updatedUsers);
+    
+       res.status(201).json({ message: 'Message added successfully', result });
   } catch (error) {
     console.error('Error adding message:', error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -450,47 +466,33 @@ app.post('/addMessage', async (req, res) => {
 });
 
 //get method to retrieve the motion messages
-app.get('/getMessages',(req,res) =>{
-  res.json({ messages });
-});
-
-//Post method to push messages for motion discussion to array
-app.post('/addMessage', async (req, res) => {
-  const { message } = req.body;
+app.get('/getMessages', async (req, res) => {
+  console.log('Get messages request received');
   
-  if (!message) {
-    return res.status(400).json({ message: 'Message is required' });
-  }
-
   try {
-    
-    const currentMotionName = currentCommittee.currentmotionName;
-    
-    console.log('Current Motion Name:', currentMotionName);
-    const motion = await motions.findOne({ name: currentMotionName });
-    
-    //ensure motion exists
+    const currentInfo = await current.findOne({ id: 1 });
+    console.log('Current info:', currentInfo);
+    if (!currentInfo) {
+      return res.status(404).json({ message: 'No current committee selected' });
+    }
+
+    const committee = await committees.findOne({ name: currentInfo.currentCommitteeName });
+    if(!committee) {
+      return res.status(404).json({ message: 'Committee not found' });
+    }
+
+    const motion = currentInfo.currentMotionName;
+    console.log('Current motion:', motion);
     if (!motion) {
-      return res.status(404).json({ message: 'Motion not found' });
+      return res.status(404).json({ message: 'No current motion selected' });
     }
 
-    // Ensure messages array exists, even if empty
-    if (!Array.isArray(motion.messages)) {
-      motion.messages = [];
-    }
 
-    motion.messages.push(message);
-    console.log("Message: ", message);
+    console.log('Messages:',currentInfo.currentMotionName.messages);
 
-
-    const result = await motions.updateOne(
-      { name: currentInfo.currentUserName },
-      { $set: { messages: motion.messages } }
-    );
-
-    res.status(201).json({ message: 'Message added successfully', result });
+    res.status(200).json({ messages:motion.messages });
   } catch (error) {
-    console.error('Error adding message:', error);
+    console.error('Error retrieving messages:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
