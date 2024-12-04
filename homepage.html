@@ -91,6 +91,7 @@
                     button.addEventListener('click', async () => {
                         console.log(item);
                         try {
+                        console.log('Updating current committee:', item);
                         const response = await fetch('http://localhost:3000/updateCurrentCommittee', {
                             method: 'POST',
                             headers: {

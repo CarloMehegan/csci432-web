@@ -129,8 +129,10 @@ app.post('/create-committee', async (req, res) => {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
+
   const discussionfile =null; //initialize discussion file
   const currentmotionName = ""; //initialize motions (might need to change)
+
 
   try {
     // Check if the email already exists
@@ -234,9 +236,14 @@ app.get('/userEmail/:email', async (req, res) => {
   }
  });
 
+
+
  //get all motions by committee
  app.get('/motions/:committee', async (req, res) => {
+  console.log('Get motions request received');
   const committeeName = req.params.committee;
+  console.log('Committee name:', committeeName);  
+  
   try {
     const motionsList = await motions.find({ committeeName }).toArray();
     if (motionsList.length > 0) {
@@ -291,6 +298,54 @@ app.post('/updateCurrentCommittee', async (req, res) => {
   }
 });
 
+//update current motion
+app.post('/updateCurrentMotion', async (req, res) => {
+  console.log('Update current motion request received');
+
+  const committee = current.currentCommitteeName
+  // Fetch motions by committee
+  const response = await fetch (`http://localhost:3000/motions/${committee}`,{
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+console.log(response);
+  // Check if motions were returned
+if (!response.ok) {
+return res.status(404).send('No motions found for the given committee');
+}
+
+const motions = await response.json(); // Parse the JSON response
+
+  if (!motions || motions.length === 0) {
+    return res.status(404).send('No motions found for the given committee');
+  }
+
+  // Use the first motion as the current motion
+  const firstMotionName = motions[0].name;
+
+  // Update current motion in both collections
+  await current.updateOne(
+    {},
+    { $set: { currentMotionName: firstMotionName } },
+    { upsert: true }
+  );
+
+  await current.currentCommittee.updateOne(
+    {},
+    { $set: { currentmotionName: firstMotionName } },
+    { upsert: true }
+  );
+  res.status(200).json({
+    message: 'Current committee and motion updated successfully',
+    result,
+    currentMotionName: firstMotionName,
+  });
+  });
+
+
 
  //get current info
  app.get('/current', async (req, res) => {
@@ -315,6 +370,9 @@ app.post('/addMotion', async (req, res) => {
     return res.status(400).json({ message: 'Name and description are required' });
   }
 
+  const users =[];
+  const messages = [];
+
   try {
     const currentInfo = await current.findOne({ id: current1 });
     const newMotion = {
@@ -324,7 +382,9 @@ app.post('/addMotion', async (req, res) => {
       against: 0,
       status: 'pending',
       decision: 'pending',
-      committeeName: currentInfo.currentCommitteeName
+      committeeName: currentInfo.currentCommitteeName,
+      users: [],
+      messages: []
     };
 
     const result = await motions.insertOne(newMotion);
@@ -365,11 +425,105 @@ app.get('/current-user-email', async (req, res) => {
   }
   });
 
+
+//Post method to push messages for motion discussion to array
+app.post('/addMessage', async (req, res) => {
+  const { message } = req.body;
+  const current1 = 1;
+  if (!message) {
+    return res.status(400).json({ message: 'Message is required' });
+  }
+
+  try {
+    const currentInfo = await current.findOne({ id: current1 });
+    
+    const committee = await committees.findOne({ name: currentInfo.currentCommitteeName });
+        if (!committee) {
+            return res.status(404).json({ message: 'Committee not found' });
+        }
+    
+    
+    const motion = await motions.findOne({ name: committee.currentmotionName });
+    console.log('Current Motion:', motion);
+
+    //ensure motion exists
+    if (!motion) {
+      return res.status(404).json({ message: 'Motion not found' });
+    }
+
+       // Update the messages array and ensure it exists
+       const updatedMessages = Array.isArray(motion.messages) ? [...motion.messages, message] : [message];
+       const updatedUsers = Array.isArray(motion.users)
+         ? [...motion.users, currentInfo.currentUserName]
+         : [currentInfo.currentUserName]; // Use a Set to ensure uniqueness
+   
+       // Update the motion in the database
+       const result = await motions.updateOne(
+         { name: committee.currentmotionName }, // Find motion by its name
+         {
+           $set: {
+             messages: updatedMessages,
+             users: updatedUsers,
+           },
+         }
+       );
+   
+       if (result.nModified === 0) {
+         return res.status(500).json({ message: 'Failed to update the motion' });
+       }
+   
+       console.log('Updated motion messages:', updatedMessages);
+       console.log('Updated motion users:', updatedUsers);
+    
+       res.status(201).json({ message: 'Message added successfully', result });
+  } catch (error) {
+    console.error('Error adding message:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+//get method to retrieve the motion messages
+app.get('/getMessages', async (req, res) => {
+  console.log('Get messages request received');
+  
+  try {
+    const currentInfo = await current.findOne({ id: 1 });
+    console.log('Current info:', currentInfo);
+    if (!currentInfo) {
+      return res.status(404).json({ message: 'No current committee selected' });
+    }
+
+    const committee = await committees.findOne({ name: currentInfo.currentCommitteeName });
+    if(!committee) {
+      return res.status(404).json({ message: 'Committee not found' });
+    }
+
+    const motion = await motions.findOne({ name: committee.currentmotionName });
+    console.log('Current motion:', motion);
+    if (!motion) {
+      return res.status(404).json({ message: 'No current motion selected' });
+    }
+
+
+    console.log('Messages:',motion.messages);
+
+    res.status(200).json({ messages:motion.messages, users:motion.users });
+  } catch (error) {
+    console.error('Error retrieving messages:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
+
+ 
   // Close a motion and update the next motion in queue
   app.post('/close-motion', async (req, res) => {
     const { decision, description } = req.body;
     if (!decision || !description) {
       return res.status(400).json({ message: 'Decision and description are required' });
+
     }
     try {
       // Get the current committee info
@@ -428,6 +582,11 @@ app.get('/current-user-email', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
+
+//get method to retrieve the motion messages
+app.get('/getMessages',(req,res) =>{
+  res.json({ messages });
+});
 
 // Get the current motion of a committee
 app.get('/current-motion', async (req, res) => {
