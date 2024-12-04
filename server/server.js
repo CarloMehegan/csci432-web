@@ -380,8 +380,8 @@ app.post('/addMotion', async (req, res) => {
       status: 'active',
       decision: 'pending',
       committeeName: currentInfo.currentCommitteeName,
-      users,
-      messages
+      users: [],
+      messages: []
     };
 
     const result = await motions.insertOne(newMotion);
@@ -426,7 +426,7 @@ app.post('/addMessage', async (req, res) => {
         }
     
     
-    const motion = await motions.findOne({ name: currentInfo.currentMotionName });
+    const motion = await motions.findOne({ name: committee.currentmotionName });
     console.log('Current Motion:', motion);
 
     //ensure motion exists
@@ -442,7 +442,7 @@ app.post('/addMessage', async (req, res) => {
    
        // Update the motion in the database
        const result = await motions.updateOne(
-         { name: currentInfo.currentMotionName }, // Find motion by its name
+         { name: committee.currentmotionName }, // Find motion by its name
          {
            $set: {
              messages: updatedMessages,
@@ -481,16 +481,16 @@ app.get('/getMessages', async (req, res) => {
       return res.status(404).json({ message: 'Committee not found' });
     }
 
-    const motion = currentInfo.currentMotionName;
+    const motion = await motions.findOne({ name: committee.currentmotionName });
     console.log('Current motion:', motion);
     if (!motion) {
       return res.status(404).json({ message: 'No current motion selected' });
     }
 
 
-    console.log('Messages:',currentInfo.currentMotionName.messages);
+    console.log('Messages:',motion.messages);
 
-    res.status(200).json({ messages:motion.messages });
+    res.status(200).json({ messages:motion.messages, users:motion.users });
   } catch (error) {
     console.error('Error retrieving messages:', error);
     res.status(500).json({ message: 'Internal Server Error' });
