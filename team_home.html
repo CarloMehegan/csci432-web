@@ -103,7 +103,7 @@
         .then(response => response.json())
         .then(motions => {
             const motionQueue = document.getElementById('motion-queue');
-            motions.forEach(motion => {
+            motions.filter(motion => motion.status === "pending").forEach(motion => {
                 const motionDiv = document.createElement('div');
                 motionDiv.classList.add('queue-item');
                 motionDiv.textContent = motion.name;

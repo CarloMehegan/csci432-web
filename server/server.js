@@ -238,7 +238,7 @@ app.get('/userEmail/:email', async (req, res) => {
  app.get('/motions/:committee', async (req, res) => {
   const committeeName = req.params.committee;
   try {
-    const motionsList = await motions.find({ committeeName, status:'pending' }).toArray();
+    const motionsList = await motions.find({ committeeName }).toArray();
     if (motionsList.length > 0) {
       res.status(200).json(motionsList);
     } else {
