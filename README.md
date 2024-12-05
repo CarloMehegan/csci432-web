@@ -83,14 +83,10 @@ Robert's Realm is a collaborative platform designed to help teams and committees
 ### User Interface Design
 
 #### Color Scheme:
-- Primary colors: Blue and grayscale
 - Dark mode support
 - Clean, minimalist design
 
 #### Layout Principles:
-- **Responsive Design**
-  - Adapts to different screen sizes
-  - Mobile and desktop friendly
 - **Navigation**
   - Intuitive menu structure
   - Easy access to key features
@@ -139,7 +135,7 @@ Robert's Realm is a collaborative platform designed to help teams and committees
 
 ---
 
-## Technical Prototype Considerations
+## Technical Prototype
 
 - Vanilla JavaScript for interactivity
 - Fetch API for server communications
