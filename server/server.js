@@ -391,7 +391,7 @@ app.post('/addMotion', async (req, res) => {
 
     const currentCommittee = await committees.findOne({ name: currentInfo.currentCommitteeName });
 
-    if(currentCommittee.currentmotionName === "") {
+    if(currentCommittee.currentmotionName === "" || currentCommittee.currentmotionName === null) {
       await committees.updateOne(
         { name: currentInfo.currentCommitteeName },
         { $set: { currentmotionName: name } }
@@ -561,17 +561,20 @@ app.get('/getMessages', async (req, res) => {
         });
       }
       // Select the next motion (e.g., the first in the list; adjust as needed for order)
+      
       const nextMotion = motionsList[0];
-      // Update the committee's current motion
-      await committees.updateOne(
-        { name: currentInfo.currentCommitteeName },
-        { $set: { currentmotionName: nextMotion.name } }
-      );
+        // Update the committee's current motion
+      
+        await committees.updateOne(
+          { name: currentInfo.currentCommitteeName },
+          { $set: { currentmotionName: nextMotion.name } }
+        );
 
-      await motions.updateOne(
-        { name: nextMotion.name },
-        { $set: { status: 'Active' } }
-      );
+        await motions.updateOne(
+          { name: nextMotion.name },
+          { $set: { status: 'Active' } }
+        );
+      
 
       res.status(200).json({
         message: 'Motion closed successfully.',
