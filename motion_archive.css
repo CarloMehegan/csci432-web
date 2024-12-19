@@ -33,3 +33,81 @@ body{
     font-weight: bold; /* Make the text bold */
 }
 
+#motionContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.motion {
+    display: flex;
+    flex-direction: column; /* Stacks dropdown below the main row */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    width: 100%; /* Full width */
+    box-sizing: border-box;
+}
+
+.motion-header {
+    display: flex;
+    align-items: center; /* Vertically align content in the row */
+    justify-content: space-between; /* Add spacing between elements */
+    gap: 15px; /* Add spacing between items */
+    width: 100%; /* Ensure it spans the container */
+    margin-bottom: 10px; /* Add spacing before dropdown */
+}
+
+.motion-title {
+    flex: 3; /* Title takes up more space */
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.motion-decision {
+    flex: 1; /* Decision marker gets less space */
+    font-size: .9em;
+    text-align: center;
+    color: green; /* Default for checkmark */
+}
+
+.motion-decision.rejected {
+    color: red; /* For rejected motions */
+}
+
+.motion-description {
+    flex: 4; /* Description takes up remaining space */
+    font-size: .8em;
+    color: #555;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Truncate long descriptions */
+}
+
+.motion-discussion-button {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.motion-discussion {
+    display: none; /* Initially hidden */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    font-size: .6em;
+    color: #333;
+    width: 100%; /* Span the full width */
+    box-sizing: border-box;
+}
+
+.motion-discussion.visible {
+    display: block; /* Show when toggled */
+}
+
+.motion-discussion p {
+    margin: 5px 0; /* Add spacing between messages */
+    line-height: 1.4; /* Improve readability */
+}

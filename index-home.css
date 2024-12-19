@@ -8,7 +8,7 @@
 }
 
 body{
-    background-color: white;
+    background-color: #f4f4f4;
 }
 .web-container{
     display: flex;
@@ -59,38 +59,51 @@ body{
     width: 100px;
     height: 100px;
     border-radius: 20%;
-    background-color: aquamarine;
     justify-content: center;
     align-items: center;
     font-size: 11px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);    transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for smooth effect */
+    border: none; /* Ensure no border */
+
 }
 
-.team:nth-child(2n) {
+.team:nth-child(4n+1) {
     background-color: var(--color1);
+    color: white;
 }
 
-.team:nth-child(4n) {
+.team:nth-child(4n+2) {
     background-color: var(--color2);
+    color: black;
 }
 
-.team:nth-child(6n) {
+.team:nth-child(4n+3) {
     background-color: var(--color3);
+    color: black;
 }
 
-.team:nth-child(8n) {
+.team:nth-child(4n+4) {
     background-color: var(--color4);
+    color: white;
 }
 
 
-.add-team{
+.add-team {
     display: flex;
     flex-direction: column;
-    width: 100px;
-    height: 100px;
-    border-radius: .75;
-    font-size: 11px;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+   
+    color: white;
+    padding: 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    width: 50px;
+    height: 50px; /* Adjust height as needed */
+    font-size: 8px;
 }
 
 img {
@@ -102,3 +115,29 @@ a {
     text-decoration: none;
     color: black;
 }
+
+#toggleDarkMode {
+    padding: 5px 10px; /* Smaller padding */
+    background-color: var(--color4); /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+    font-size: 0.8em; /* Smaller font size */
+    position: absolute; /* Position it absolutely */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+}
+
+#toggleDarkMode:hover {
+    background-color: var(--color5); /* Darker blue on hover */
+}
+
+/*.outer-teams{
+    
+        background-color: thistle;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Inset shadow for sunken effect 
+    
+}*/

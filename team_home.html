@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="team_home.css">
 </head>
 <body>
+    <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
+        
     <div class="web-container">
-        <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
         <div class="side-bar">
             <div class="text-2">Motion Queue</div>
             <div id="motion-queue"></div>
@@ -25,7 +26,7 @@
                 </div>
             </div>
             <div class="motion">
-                <div class="text-4">Current Motion</div>
+                <div class="text-4"><strong>Current Motion</strong> </div>
                 <div id="text-3"></div>
                 <div id="text-desc"></div>
                 <div class="motion-bottom">
@@ -40,7 +41,8 @@
                         </button>
                     </div>
                     <div class="text-4">Raise Sub-Motion</div>
-                    <div class="text-4">Close Motion</div>
+                    <a href="close_motion.html"><div class="text-4">Close Motion</div></a>
+
                 </div>
             </div>
             <div class="page-middle">
@@ -101,7 +103,7 @@
         .then(response => response.json())
         .then(motions => {
             const motionQueue = document.getElementById('motion-queue');
-            motions.forEach(motion => {
+            motions.filter(motion => motion.status === "pending").forEach(motion => {
                 const motionDiv = document.createElement('div');
                 motionDiv.classList.add('queue-item');
                 motionDiv.textContent = motion.name;

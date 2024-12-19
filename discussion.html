@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discussion Page</title>
-    <link rel="stylesheet" href="draft_motion.css">
+    <link rel="stylesheet" href="discussion.css">
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="dropdown.js"></script>
 
 </head>
 
 <body>
+    <a href="team_home.html" class="home-button">Home</a> <!-- home button -->
     <div id = "main-container">
         <div id = "sidebar-container">
             <section id="sidebar">
@@ -60,33 +60,86 @@
                 <div id="message-box">
                     <!-- Messages will appear here -->
                     <div class="message">
-                        <span class="username">User1:</span> This is an example message.
+    
                     </div>
-                    <div class="message">
-                        <span class="username">User2:</span> Here's another message.
-                    </div>
-                </div>
                 
-                <form id="messageForm">
-                    <input type="text" id="messageInput" name="message" placeholder="Type your message here" required>
-                    <button type="submit" class="btn">Send</button>
-                </form>
+                
             </section>
+            <form id="messageForm">
+                <input type="text" id="messageInput" name="message" placeholder="Type your message here" required>
+                <button type="submit" class="btn">Send</button>
+            </form>
         </div>
         <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                // Load existing messages
+                await loadMessages();
+            });
+            
             const form = document.getElementById('messageForm');
             const messageBox = document.getElementById('message-box');
 
-            form.addEventListener('submit', function (event) {
+
+            //Function to populate existing messages
+            async function loadMessages(){
+                
+                try{
+                console.log("Loading messages...");
+                const response = await fetch('http://localhost:3000/getMessages', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                console.log("get messages response:", data);
+
+                    // Ensure there are messages and users arrays of the same length
+                    if (data.messages && Array.isArray(data.messages) && data.users && Array.isArray(data.users)) {
+                        data.messages.forEach((message, index) => {
+                            // Retrieve the corresponding username
+                            const username = data.users[index];
+
+                            // Create and append the message element
+                            const messageElement = document.createElement('div');
+                            messageElement.classList.add('message');
+                            messageElement.innerHTML = `<span class="username">${username}:</span> ${message}`;
+                            messageBox.appendChild(messageElement);
+                        });
+
+                        // Scroll to the bottom of the message box
+                        messageBox.scrollTop = messageBox.scrollHeight;
+                    } else {
+                        console.error('Invalid data format received from server');
+                    }
+                } catch (error) {
+                    console.error('Error loading messages:', error);
+                }
+            }
+
+
+            //send message to database
+            form.addEventListener('submit', async function (event) {
                 event.preventDefault();
                 
                 // Get the message input value
                 const messageInput = document.getElementById('messageInput');
                 const message = messageInput.value.trim();
+                const username = "current user";
 
                 // If there's a non-empty message, add it to the message box
                 if(message) {
+                    //Send post request to add new message
+                    const response = await fetch ('http://localhost:3000/addMessage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: message}),
+                    });
+                    console.log("Discussion recieved resposnse:" ,response);
                     // Create a new message element
+                    if(response.ok){
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `<span class="username">You:</span> ${message}`;
@@ -99,6 +152,7 @@
                     
                     // Scroll to the bottom of the message box
                     messageBox.scrollTop = messageBox.scrollHeight;
+                    }
                 }
             });
 
@@ -137,4 +191,5 @@
     </div>
 </body>
 
+<script type="text/javascript" src="dropdown.js"></script>
 </html>

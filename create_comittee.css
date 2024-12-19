@@ -1,67 +1,91 @@
-body{
-    background-color: gainsboro;
+/* General styles */
+:root {
+    --color1: #AD3176;
+    --color2: #E8C4D4;
+    --color3: #C6E6DB;
+    --color4: #006B8F;
+    --color5: #003E7F;
+    --color6: #885A5A;
 }
 
-.web-container{
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.web-container {
     display: flex;
     flex-direction: column;
-    margin: 20px;
-    padding: 20px;
-    gap: 50px;
-    font-size: 30px;
-    font-family: sans-serif;
-    width: 93%;
-    height: 87vh;
-    border-radius: 10px;
-    justify-content: center;
-    background-color: white;
-    justify-items: center;
     align-items: center;
-
+    padding: 20px;
 }
 
-form{
+form {
     width: 60%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-top: 20px;
-    gap: 30px;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.section{
+.section {
     display: flex;
     flex-direction: row;
-    gap: 30px;
-    width: 150%
+    gap: 20px;
+    width: 100%;
 }
 
-input[type="text"]{
-   background-color: rgb(233, 237, 237);
-   border: 1px solid rgb(112, 110, 110);
-   border-radius: 10px;
-   width: 50%;
-
+input[type="text"], textarea {
+    background-color: rgb(233, 237, 237);
+    border: 1px solid rgb(112, 110, 110);
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
 }
 
-form label{
-    display: block;
-    margin-left: -20px;
-    font-size: 18px;
-    margin-bottom: -5px;
-}
-
-/* Styles for the Home button */
 .home-button {
-    position: absolute; /* Position it in the top left corner */
-    top: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
-    padding: 8px 12px; /* Add some padding */
-    background-color: #000000; /* Blue background */
-    color: white; /* White text */
-    text-decoration: none; /* Remove underline from link */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Change cursor on hover */
-    font-weight: bold; /* Make the text bold */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    background-color: var(--color2);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
 }
+
+.home-button:hover {
+    background-color: var(--color1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 10px 15px;
+    background-color: var(--color4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background-color: var(--color5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+

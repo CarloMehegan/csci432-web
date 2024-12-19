@@ -8,8 +8,106 @@
 </head>
 <body>
     <div class="web-container">
-        <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
+        <a href="team_home.html" class="home-button">Home</a> <!-- home button -->
         <div class="title">Motion Archive</div>
+        <div id = "motionContainer"></div>
     </div> 
 </body>
 </html>
+
+<script>
+    fetch('http://localhost:3000/current')
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch current committee');
+            return response.json();
+        })
+        .then(data => {
+            const committeeID = data.currentCommitteeName;
+
+            // Fetch the current committee's motions
+            return fetch(`http://localhost:3000/motions/${committeeID}`);
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch motions');
+            return response.json();
+        })
+        .then(data => {
+            const container = document.getElementById('motionContainer');
+            container.innerHTML = '';
+
+            data
+                .filter(motion => motion.status?.toLowerCase() === "closed") // Only closed motions
+                .forEach(motion => {
+                    const element = document.createElement('div');
+                    element.className = 'motion';
+
+                    // Header: Title, Decision, Description, Button
+                    const headerElement = document.createElement('div');
+                    headerElement.className = 'motion-header';
+
+                    // Title
+                    const titleElement = document.createElement('div');
+                    titleElement.className = 'motion-title';
+                    titleElement.textContent = motion.name || 'Untitled';
+
+                    // Decision (Checkmark or X)
+                    const decisionElement = document.createElement('div');
+                    decisionElement.className = 'motion-decision';
+                    if (motion.decision === 'accepted') {
+                        decisionElement.textContent = '✔'; // Checkmark
+                    } else {
+                        decisionElement.textContent = '✖'; // X mark
+                        decisionElement.classList.add('rejected'); // Add red color for rejected
+                    }
+
+                    // Description
+                    const descriptionElement = document.createElement('div');
+                    descriptionElement.className = 'motion-description';
+                    descriptionElement.textContent = motion.description || 'No description available';
+
+                    // "See Discussion" Button
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'motion-discussion-button';
+                    const button = document.createElement('button');
+                    button.textContent = 'See Discussion';
+                    button.addEventListener('click', () => toggleDiscussion(discussionElement, button));
+                    buttonContainer.appendChild(button);
+
+                    // Append all items to the header
+                    headerElement.appendChild(titleElement);
+                    headerElement.appendChild(decisionElement);
+                    headerElement.appendChild(descriptionElement);
+                    headerElement.appendChild(buttonContainer);
+
+                    // Discussion (hidden by default)
+                    const discussionElement = document.createElement('div');
+                    discussionElement.className = 'motion-discussion';
+
+                    if (motion.users && motion.messages) {
+                        motion.users.forEach((user, index) => {
+                            const messageElement = document.createElement('p');
+                            messageElement.textContent = `${user}: ${motion.messages[index]}`;
+                            discussionElement.appendChild(messageElement);
+                        });
+                    } else {
+                        const noDiscussionMessage = document.createElement('p');
+                        noDiscussionMessage.textContent = 'No discussion recorded.';
+                        discussionElement.appendChild(noDiscussionMessage);
+                    }
+
+                    // Append all elements to the motion element
+                    element.appendChild(headerElement);
+                    element.appendChild(discussionElement);
+
+                    // Add motion to the container
+                    container.appendChild(element);
+                });
+        })
+        .catch(error => console.error('Error:', error));
+
+    // Toggle discussion visibility and button text
+    function toggleDiscussion(discussionElement, button) {
+        const isVisible = discussionElement.classList.toggle('visible');
+        button.textContent = isVisible ? 'Close Discussion' : 'See Discussion';
+    }
+</script>

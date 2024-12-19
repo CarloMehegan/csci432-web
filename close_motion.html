@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="create_comittee.css">
 </head>
 <body>
+    <a href="homepage.html" class="home-button">Home</a> <!-- home button -->
     <div class="web-container">
         <div>Close Motion</div>
         <form class="create">
@@ -22,6 +23,43 @@
         </form>
         <button type="button">Submit</button>
     </div>
-    
+    <script>
+        document.querySelector("button[type='button']").addEventListener("click", async () => {
+            const decision = document.getElementById("name").value.trim();
+            const description = document.getElementById("desc").value.trim();
+        
+            if (!decision || !description) {
+                alert("Both decision and description are required.");
+                return;
+            }
+        
+            try {
+                const response = await fetch("http://localhost:3000/close-motion", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ decision, description }),
+                });
+        
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.message);
+        
+                    if (data.nextMotion) {
+                        alert("Next Motion: " + data.nextMotion);
+                    }
+                    window.location.href = 'team_home.html';
+                } else {
+                    const errorData = await response.json();
+                    alert("Error: " + errorData.message);
+                }
+            } catch (error) {
+                console.error("Error closing motion:", error);
+                alert("An error occurred while closing the motion.");
+            }
+        });
+        </script>
+        
 </body>
 </html>
