@@ -3,8 +3,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt'; 
-
 import cors from 'cors';
+
+const mongoose = require('mongoose');
 
 const app = express();
 const port = 3000;
@@ -332,6 +333,38 @@ app.post('/addMotion', async (req, res) => {
     res.status(201).json({ message: 'Motion added successfully', result });
   } catch (error) {
     console.error('Error adding motion:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Vote Functionality
+
+// Add a vote to a motion
+app.post('/vote', async (req, res) => {
+  const { motionName, voteType } = req.body;
+
+  if (!motionName || !voteType) {
+    return res.status(400).json({ message: 'Motion name and vote type are required' });
+  }
+
+  if (!['for', 'against'].includes(voteType)) {
+    return res.status(400).json({ message: 'Invalid vote type. Must be "for" or "against"' });
+  }
+
+  try {
+    // Update the motion's vote count
+    const result = await motions.updateOne(
+      { name: motionName },
+      { $inc: { [voteType]: 1 } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: 'Motion not found' });
+    }
+
+    res.status(200).json({ message: `Vote added to ${voteType}`, result });
+  } catch (error) {
+    console.error('Error updating motion votes:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });

@@ -30,11 +30,11 @@
                 <div id="text-desc"></div>
                 <div class="motion-bottom">
                     <div class="voting-info">
-                        <div id="votes-yes" class="text-5">4</div>
+                        <div id="votes-yes" class="text-5">0</div>
                         <button id="vote-yes-button" class="vote-button">
                             <img src="team-imgs/check.png" alt="Yes">
                         </button>
-                        <div id="votes-no" class="text-5">2</div>
+                        <div id="votes-no" class="text-5">0</div>
                         <button id="vote-no-button" class="vote-button">
                             <img src="team-imgs/ex.png" alt="No">
                         </button>
@@ -109,4 +109,53 @@
             });
         })
         .catch(error => console.error('Error:', error));
+    
+        // Vote Functionality
+        document.addEventListener('DOMContentLoaded', async () => {
+        // Fetch initial vote data
+        const currentMotionResponse = await fetch('http://localhost:3000/current');
+        const currentMotionData = await currentMotionResponse.json();
+        const motionName = currentMotionData.currentMotionName;
+
+        // Set initial vote counts for the current motion
+        const votesResponse = await fetch(`http://localhost:3000/motion/${motionName}`);
+        const votesData = await votesResponse.json();
+        
+        document.getElementById('votes-yes').textContent = votesData.for;
+        document.getElementById('votes-no').textContent = votesData.against;
+
+        // Handle vote button clicks (Yes)
+        document.getElementById('vote-yes-button').addEventListener('click', async () => {
+            // Send vote type 'for' (Yes)
+            const response = await fetch('http://localhost:3000/vote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    motionName: motionName,
+                    voteType: 'for' // 'for' for Yes
+                }),
+            });
+            const updatedVotes = await response.json();
+            // Update UI with new vote counts
+            document.getElementById('votes-yes').textContent = updatedVotes.for;
+            document.getElementById('votes-no').textContent = updatedVotes.against;
+        });
+
+        // Handle vote button clicks (No)
+        document.getElementById('vote-no-button').addEventListener('click', async () => {
+            // Send vote type 'against' (No)
+            const response = await fetch('http://localhost:3000/vote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    motionName: motionName,
+                    voteType: 'against' // 'against' for No
+                }),
+            });
+            const updatedVotes = await response.json();
+            // Update UI with new vote counts
+            document.getElementById('votes-yes').textContent = updatedVotes.for;
+            document.getElementById('votes-no').textContent = updatedVotes.against;
+        });
+    });
 </script>

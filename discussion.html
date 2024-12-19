@@ -101,6 +101,38 @@
                     messageBox.scrollTop = messageBox.scrollHeight;
                 }
             });
+
+
+                    // Handle voting
+                    const voteButtons = document.querySelectorAll('.vote-btn');
+
+            voteButtons.forEach(button => {
+                button.addEventListener('click', async function () {
+                    const motionName = this.getAttribute('data-motion');
+                    const voteType = this.classList.contains('for-btn') ? 'for' : 'against';
+
+                    try {
+                        const response = await fetch('http://localhost:3000/vote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ motionName, voteType }),
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            alert(`Vote added to ${voteType} for motion: "${motionName}"`);
+                        } else {
+                            alert(`Error: ${result.message}`);
+                        }
+                    } catch (error) {
+                        console.error('Error submitting vote:', error);
+                        alert('An error occurred while submitting your vote. Please try again later.');
+                    }
+                });
+            });
         </script>
     </div>
 </body>
