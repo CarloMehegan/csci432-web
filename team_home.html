@@ -40,7 +40,7 @@
                             <img src="team-imgs/ex.png" alt="No">
                         </button>
                     </div>
-                    <div class="text-4">Raise Sub-Motion</div>
+                    <div class="text-4">                </div>
                     <a href="close_motion.html"><div class="text-4">Close Motion</div></a>
 
                 </div>
@@ -117,15 +117,19 @@
         // Fetch initial vote data
         const currentMotionResponse = await fetch('http://localhost:3000/current');
         const currentMotionData = await currentMotionResponse.json();
-        const motionName = currentMotionData.currentMotionName;
-
+        const committeeName = currentMotionData.currentCommitteeName;
+        console.log("LOOOK DOWN");
+        console.log(committeeName);
+        const committeeObject = await fetch(`http://localhost:3000/team/${committeeName}`);
+        const committeeData = await committeeObject.json();
+        const motionName = committeeData.currentmotionName;
         // Set initial vote counts for the current motion
         const votesResponse = await fetch(`http://localhost:3000/motion/${motionName}`);
         const votesData = await votesResponse.json();
         
         document.getElementById('votes-yes').textContent = votesData.for;
         document.getElementById('votes-no').textContent = votesData.against;
-
+        
         // Handle vote button clicks (Yes)
         document.getElementById('vote-yes-button').addEventListener('click', async () => {
             // Send vote type 'for' (Yes)
@@ -137,10 +141,7 @@
                     voteType: 'for' // 'for' for Yes
                 }),
             });
-            const updatedVotes = await response.json();
-            // Update UI with new vote counts
-            document.getElementById('votes-yes').textContent = updatedVotes.for;
-            document.getElementById('votes-no').textContent = updatedVotes.against;
+            
         });
 
         // Handle vote button clicks (No)
@@ -154,10 +155,7 @@
                     voteType: 'against' // 'against' for No
                 }),
             });
-            const updatedVotes = await response.json();
-            // Update UI with new vote counts
-            document.getElementById('votes-yes').textContent = updatedVotes.for;
-            document.getElementById('votes-no').textContent = updatedVotes.against;
+           
         });
     });
 </script>
