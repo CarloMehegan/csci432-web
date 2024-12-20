@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt'; 
 import cors from 'cors';
 
-const mongoose = require('mongoose');
 
 const app = express();
 const port = 3000;
@@ -438,7 +437,8 @@ app.post('/vote', async (req, res) => {
     res.status(200).json({ message: `Vote added to ${voteType}`, result });
   } catch (error) {
     console.error('Error updating motion votes:', error);
-
+  }
+});
 //Get the current user email
 app.get('/current-user-email', async (req, res) => {
   try {
